@@ -3,7 +3,6 @@ module Authentication
 
   included do
     before_action :require_authentication!
-    helper_method :authenticated?
   end
 
   class_methods do
@@ -34,11 +33,11 @@ module Authentication
     end
 
     def extracted_bearer_token
-      auth_header = request.headers['Authorization']
+      auth_header = request.headers["Authorization"]
       return nil unless auth_header
-      
+
       # Extract token from "Bearer <token>" format
-      auth_header.split(' ').last.presence
+      auth_header.split(" ").last.presence
     end
 
     def unauthenticated_response
@@ -50,13 +49,13 @@ module Authentication
         Current.session = session
         # For API, we return the session token in the response
         # The client should store this and send it in Authorization header
-        response.headers['X-Session-Token'] = session.id
+        response.headers["X-Session-Token"] = session.id
       end
     end
 
     def terminate_session
       Current.session&.destroy
       # Clear any stored session data
-      response.headers['X-Session-Token'] = nil
+      response.headers["X-Session-Token"] = nil
     end
 end

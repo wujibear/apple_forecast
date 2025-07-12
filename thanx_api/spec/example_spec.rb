@@ -10,4 +10,4 @@ RSpec.describe 'Example', type: :model do
     # This test will pass if Faker is working
     expect(Faker::Name.name).to be_a(String)
   end
-end 
+end
