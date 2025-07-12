@@ -8,15 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    services:
-      sqlite3:
-        image: alpine/sqlite3
-        options: >-
-          --health-cmd "sqlite3 --version"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+  
+    # SQLite3 is available on Ubuntu runner by default
 
     steps:
     - uses: actions/checkout@v4
