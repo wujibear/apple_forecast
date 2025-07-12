@@ -9,6 +9,7 @@ module Api
 
       view :detail do
         include_view :summary
+
         association :sessions, blueprint: SessionSerializer
         association :redemptions, blueprint: RedemptionSerializer
         association :rewards, blueprint: RewardSerializer
