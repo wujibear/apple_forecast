@@ -55,4 +55,5 @@ end
 
 group :development do
   gem "annotate" # Shows related DB schema in each model file
+  gem "foreman" # Process manager for development
 end
