@@ -9,6 +9,7 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
       rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
       rescue_from ActionController::ParameterMissing, with: :render_bad_request
+      rescue_from Authentication::UnauthorizedError, with: :render_unauthorized
       rescue_from StandardError, with: :render_internal_server_error
 
       private
@@ -35,8 +36,8 @@ module Api
 
       def render_bad_request(exception)
         render json: {
-            error: "bad_request",
-            message: exception.message
+          error: "bad_request",
+          message: exception.message
         }, status: :bad_request
       end
 
@@ -45,6 +46,13 @@ module Api
           error: "too_many_requests",
           message: "Login failed. Too many requests"
         }, status: :too_many_requests
+      end
+
+      def render_unauthorized(exception)
+        render json: {
+          error: "unauthorized",
+          message: exception.message || "Authentication required"
+        }, status: :unauthorized
       end
 
       def render_internal_server_error(exception)

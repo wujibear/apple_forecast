@@ -18,7 +18,7 @@ module Authentication
 
     def require_authentication!
       # raise unauthenticated error and rescue from with error response
-      current_session || unauthenticated_response
+      current_session || unauthorized!
     end
 
     def current_session
@@ -40,10 +40,6 @@ module Authentication
       auth_header.split(" ").last.presence
     end
 
-    def unauthenticated_response
-      render json: { error: "Authentication required" }, status: :unauthorized
-    end
-
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
@@ -57,5 +53,9 @@ module Authentication
       Current.session&.destroy
       # Clear any stored session data
       response.headers["X-Session-Token"] = nil
+    end
+
+    def unauthorized!
+      raise UnauthorizedError, "Authentication required"
     end
 end
