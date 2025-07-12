@@ -7,6 +7,6 @@ class CreateRedemptions < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :redemptions, [:user_id, :reward_id]
+    add_index :redemptions, [ :user_id, :reward_id ]
   end
 end
