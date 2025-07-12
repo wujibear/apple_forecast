@@ -5,27 +5,13 @@ module Api
       # No allow_unauthenticated_access call means all actions require login
 
       def show
-        # Current.user is available from the Authentication concern
-        render_success({
-          user: {
-            id: Current.user.id,
-            email_address: Current.user.email_address
-          }
-        })
+        render json: Api::V1::UserSerializer.render_as_json(Current.user, view: :detail)
       end
 
       def update
-        if Current.user.update(user_params)
-          render_success({
-            message: "Profile updated successfully",
-            user: {
-              id: Current.user.id,
-              email_address: Current.user.email_address
-            }
-          })
-        else
-          render_error("Failed to update profile", status: :unprocessable_entity)
-        end
+        Current.user.update!(user_params)
+
+        render json: Api::V1::UserSerializer.render_as_json(Current.user, view: :detail)
       end
 
       private

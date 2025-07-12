@@ -5,6 +5,8 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of(:password) }
   it { should have_secure_password }
   it { should have_many(:sessions).dependent(:destroy) }
+  it { should have_many(:redemptions).dependent(:destroy) }
+  it { should have_many(:rewards).through(:redemptions) }
 
   # Test email presence manually since shoulda-matchers has issues with multiple validations
   describe '#email_address' do

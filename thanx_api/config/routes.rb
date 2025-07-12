@@ -5,12 +5,13 @@ Rails.application.routes.draw do
       resource :session, only: [ :create, :destroy ]
       resources :passwords, param: :token, only: [ :create, :update ]
       resource :user, only: [ :show, :update ]
+      resources :rewards, only: [ :index, :show ] do
+        member do
+          post :redeem
+        end
+      end
     end
   end
-
-  # Legacy routes (can be removed if not needed)
-  resource :session, only: [ :create, :destroy ]
-  resources :passwords, param: :token, only: [ :create, :update ]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
