@@ -9,6 +9,7 @@ module Api
 
       view :detail do
         include_view :summary
+        fields :points_balance
 
         association :sessions, blueprint: SessionSerializer
         association :redemptions, blueprint: RedemptionSerializer
