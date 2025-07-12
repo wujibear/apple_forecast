@@ -50,4 +50,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Workaround for Ruby 3.4.3 frozen array issue in test environment
+  config.eager_load = false
 end
