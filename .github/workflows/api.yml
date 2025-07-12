@@ -20,22 +20,10 @@ jobs:
         ruby-version: '3.4.3'
         bundler-cache: true
     
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: thanx_client/package-lock.json
-    
     - name: Install Rails dependencies
       run: |
         cd thanx_api
         bundle install
-    
-    - name: Install Node.js dependencies
-      run: |
-        cd thanx_client
-        npm ci
     
     - name: Setup database
       run: |
