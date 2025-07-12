@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_145732) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_163741) do
+  create_table "redemptions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "reward_id", null: false
+    t.integer "points_cost", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reward_id"], name: "index_redemptions_on_reward_id"
+    t.index ["user_id", "reward_id"], name: "index_redemptions_on_user_id_and_reward_id"
+    t.index ["user_id"], name: "index_redemptions_on_user_id"
+  end
+
   create_table "rewards", force: :cascade do |t|
     t.string "name", null: false
     t.integer "points", null: false
@@ -33,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_145732) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "points_balance", default: 0
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
