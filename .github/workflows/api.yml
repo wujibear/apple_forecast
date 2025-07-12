@@ -28,7 +28,7 @@ jobs:
         cd thanx_api
         bundle exec rubocop --parallel
 
-  test:
+  rspec:
     runs-on: ubuntu-latest
     needs: lint
     
