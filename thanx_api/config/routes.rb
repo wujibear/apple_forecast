@@ -5,6 +5,11 @@ Rails.application.routes.draw do
       resource :session, only: [ :create, :destroy ]
       resources :passwords, param: :token, only: [ :create, :update ]
       resource :user, only: [ :show, :update ]
+      resources :rewards, only: [ :index, :show ] do
+        member do
+          post :redeem
+        end
+      end
     end
   end
 
