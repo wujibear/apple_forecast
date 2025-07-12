@@ -15,7 +15,7 @@ module Api
       def destroy
         terminate_session
 
-        head :ok
+        head :no_content
       end
 
       private
