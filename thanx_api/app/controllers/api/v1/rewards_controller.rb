@@ -1,6 +1,8 @@
 module Api
   module V1
     class RewardsController < ApplicationController
+      allow_unauthenticated_access only: %i[ index show ]
+      
       def index
         rewards = Reward.all
 

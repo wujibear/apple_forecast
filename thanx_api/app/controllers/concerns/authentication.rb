@@ -31,7 +31,7 @@ module Authentication
   end
 
   def find_session_by_token_or_session_id
-    session_id = extracted_bearer_token || cookies.signed[:session_id]
+    session_id = extracted_bearer_token
     return unless session_id
 
     Session.find_by(id: session_id)

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   isRouteErrorResponse,
   Links,
@@ -44,21 +45,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes
-    },
-  },
-});
-
 export default function App() {
+  // Create a client only on the client side
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            gcTime: 10 * 60 * 1000, // 10 minutes
+          },
+        },
+      })
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {typeof window !== 'undefined' && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios from 'axios';
+import type { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 
 // API base configuration
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
