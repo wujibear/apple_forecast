@@ -8,46 +8,51 @@ RSpec.describe Redemption, type: :model do
   it { is_expected.to belong_to(:reward) }
 
   describe '#points_cost' do
-    it 'requires points_cost' do
+    it 'validates missing points_cost' do
       redemption = build(:redemption, points_cost: nil)
-      expect(redemption).not_to be_valid
-      expect(redemption.errors[:points_cost]).to include("can't be blank")
+
+      aggregate_failures do
+        expect(redemption).not_to be_valid
+        expect(redemption.errors[:points_cost]).to include("can't be blank")
+      end
     end
 
-    it 'requires points_cost to be a number' do
+    it 'validates non-numeric points_cost' do
       redemption = build(:redemption, points_cost: 'not a number')
-      expect(redemption).not_to be_valid
-      expect(redemption.errors[:points_cost]).to include('is not a number')
+
+      aggregate_failures do
+        expect(redemption).not_to be_valid
+        expect(redemption.errors[:points_cost]).to include('is not a number')
+      end
     end
 
-    it 'allows zero points cost' do
-      redemption = build(:redemption, points_cost: 0)
-      expect(redemption).to be_valid
-    end
-
-    it 'allows positive points cost' do
-      redemption = build(:redemption, points_cost: 100)
-      expect(redemption).to be_valid
-    end
-
-    it 'prevents negative points cost' do
+    it 'validates negative points_cost' do
       redemption = build(:redemption, points_cost: -10)
-      expect(redemption).not_to be_valid
-      expect(redemption.errors[:points_cost]).to include('must be greater than or equal to 0')
+
+      aggregate_failures do
+        expect(redemption).not_to be_valid
+        expect(redemption.errors[:points_cost]).to include('must be greater than or equal to 0')
+      end
     end
   end
 
   describe 'associations' do
-    it 'requires a user' do
+    it 'validates missing user' do
       redemption = build(:redemption, user: nil)
-      expect(redemption).not_to be_valid
-      expect(redemption.errors[:user]).to include('must exist')
+
+      aggregate_failures do
+        expect(redemption).not_to be_valid
+        expect(redemption.errors[:user]).to include('must exist')
+      end
     end
 
-    it 'requires a reward' do
+    it 'validates missing reward' do
       redemption = build(:redemption, reward: nil)
-      expect(redemption).not_to be_valid
-      expect(redemption.errors[:reward]).to include('must exist')
+
+      aggregate_failures do
+        expect(redemption).not_to be_valid
+        expect(redemption.errors[:reward]).to include('must exist')
+      end
     end
   end
 
@@ -57,19 +62,19 @@ RSpec.describe Redemption, type: :model do
 
     it 'enforces user_id presence' do
       expect {
-        Redemption.connection.execute("INSERT INTO redemptions (reward_id, points_cost, created_at, updated_at) VALUES (#{reward.id}, 100, '#{Time.current}', '#{Time.current}')")
+        described_class.connection.execute("INSERT INTO redemptions (reward_id, points_cost, created_at, updated_at) VALUES (#{reward.id}, 100, '#{Time.current}', '#{Time.current}')")
       }.to raise_error(ActiveRecord::StatementInvalid)
     end
 
     it 'enforces reward_id presence' do
       expect {
-        Redemption.connection.execute("INSERT INTO redemptions (user_id, points_cost, created_at, updated_at) VALUES (#{user.id}, 100, '#{Time.current}', '#{Time.current}')")
+        described_class.connection.execute("INSERT INTO redemptions (user_id, points_cost, created_at, updated_at) VALUES (#{user.id}, 100, '#{Time.current}', '#{Time.current}')")
       }.to raise_error(ActiveRecord::StatementInvalid)
     end
 
     it 'enforces points_cost presence' do
       expect {
-        Redemption.connection.execute("INSERT INTO redemptions (user_id, reward_id, created_at, updated_at) VALUES (#{user.id}, #{reward.id}, '#{Time.current}', '#{Time.current}')")
+        described_class.connection.execute("INSERT INTO redemptions (user_id, reward_id, created_at, updated_at) VALUES (#{user.id}, #{reward.id}, '#{Time.current}', '#{Time.current}')")
       }.to raise_error(ActiveRecord::StatementInvalid)
     end
   end

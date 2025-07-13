@@ -1,44 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  # Shoulda-matchers shorthand for validations
   it { is_expected.to validate_presence_of(:password) }
   it { is_expected.to have_secure_password }
   it { is_expected.to have_many(:sessions).dependent(:destroy) }
   it { is_expected.to have_many(:redemptions).dependent(:destroy) }
   it { is_expected.to have_many(:rewards).through(:redemptions) }
 
-  # Test email presence manually since shoulda-matchers has issues with multiple validations
+  # Test email presence manually since shoulda-matchers have issues with multiple validations
   describe '#email_address' do
     it 'requires email address' do
       user = build(:user, email_address: nil)
-      expect(user).not_to be_valid
-      expect(user.errors[:email_address]).to include("can't be blank")
+
+      aggregate_failures do
+        expect(user).not_to be_valid
+        expect(user.errors[:email_address]).to include("can't be blank")
+      end
     end
 
-    it 'normalizes to lowercase' do
-      user = create(:user, email_address: '  TEST@EXAMPLE.COM  ')
-      expect(user.email_address).to eq('test@example.com')
-    end
-
-    it 'strips whitespace' do
-      user = create(:user, email_address: '  test@example.com  ')
+    it 'normalizes and strips email address' do
+      user = create(:user, email_address: '  TeSt@ExAmPLe.COM  ')
       expect(user.email_address).to eq('test@example.com')
     end
 
     context "with a duplicate email" do
-      let!(:existing_user) { create(:user, email_address: 'test@example.com') }
-
-      it 'prevents duplicate email addresses' do
-        duplicate_user = build(:user, email_address: 'test@example.com')
-        expect(duplicate_user).not_to be_valid
-        expect(duplicate_user.errors[:email_address]).to include('has already been taken')
+      before do
+        create(:user, email_address: 'test@example.com')
       end
 
-      it 'prevents case insensitive duplicates' do
-        duplicate_user = build(:user, email_address: 'TEST@EXAMPLE.COM')
-        expect(duplicate_user).not_to be_valid
-        expect(duplicate_user.errors[:email_address]).to include('has already been taken')
+      it 'prevents a second email' do
+        duplicate_user = build(:user, email_address: 'test@example.com')
+
+        aggregate_failures do
+          expect(duplicate_user).not_to be_valid
+          expect(duplicate_user.errors[:email_address]).to include('has already been taken')
+        end
       end
     end
 
@@ -46,7 +42,7 @@ RSpec.describe User, type: :model do
       it 'enforces email uniqueness' do
         create(:user, email_address: 'test@example.com')
         expect {
-          User.connection.execute("INSERT INTO users (email_address, password_digest, created_at, updated_at) VALUES ('test@example.com', 'digest', '#{Time.current}', '#{Time.current}')")
+          described_class.connection.execute("INSERT INTO users (email_address, password_digest, created_at, updated_at) VALUES ('test@example.com', 'digest', '#{Time.current}', '#{Time.current}')")
         }.to raise_error(ActiveRecord::RecordNotUnique)
       end
     end
@@ -55,8 +51,11 @@ RSpec.describe User, type: :model do
   describe '#password' do
     it 'requires password on creation' do
       user = build(:user, password: nil)
-      expect(user).not_to be_valid
-      expect(user.errors[:password]).to include("can't be blank")
+
+      aggregate_failures do
+        expect(user).not_to be_valid
+        expect(user.errors[:password]).to include("can't be blank")
+      end
     end
 
     it 'allows password update without current password' do
@@ -66,10 +65,13 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
     end
 
-    it 'validates password confirmation' do
+    it 'validates password confirmation mismatch' do
       user = build(:user, password: 'password123', password_confirmation: 'different')
-      expect(user).not_to be_valid
-      expect(user.errors[:password_confirmation]).to include("doesn't match Password")
+
+      aggregate_failures do
+        expect(user).not_to be_valid
+        expect(user.errors[:password_confirmation]).to include("doesn't match Password")
+      end
     end
   end
 

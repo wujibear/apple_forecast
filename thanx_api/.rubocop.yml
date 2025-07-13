@@ -4,6 +4,18 @@ inherit_gem:
 
 plugins: rubocop-rspec
 
+# Enable new cops by default
+AllCops:
+  NewCops: enable
+
+# RSpec-specific configurations
+RSpec/IncludeExamples:
+  Enabled: true
+
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 12
+
 # Overwrite or add rules to create your own house style
 #
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
