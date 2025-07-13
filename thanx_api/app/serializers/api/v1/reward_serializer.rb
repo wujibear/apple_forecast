@@ -1,7 +1,7 @@
 module Api
   module V1
     class RewardSerializer < BaseSerializer
-      identifier :id
+      identifier :nanoid
 
       view :summary do
         fields :name, :points

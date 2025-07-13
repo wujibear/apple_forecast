@@ -16,7 +16,7 @@ module Api
       private
 
       def reward
-        @reward ||= Reward.find(params[:id])
+        @reward ||= Reward.find_by!(nanoid: params[:id])
       end
     end
   end

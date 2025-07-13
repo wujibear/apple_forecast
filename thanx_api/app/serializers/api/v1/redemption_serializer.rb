@@ -1,7 +1,7 @@
 module Api
   module V1
     class RedemptionSerializer < BaseSerializer
-      identifier :id
+      identifier :nanoid
 
       view :summary do
         fields :points_cost, :reward_name

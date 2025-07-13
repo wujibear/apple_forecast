@@ -1,4 +1,6 @@
 class Redemption < ApplicationRecord
+  include HasNanoid
+  
   before_save :save_reward_meta
 
   belongs_to :user
@@ -17,6 +19,7 @@ end
 # Table name: redemptions
 #
 #  id          :integer          not null, primary key
+#  nanoid      :string
 #  points_cost :integer          not null
 #  reward_name :string           not null
 #  created_at  :datetime         not null
@@ -26,6 +29,7 @@ end
 #
 # Indexes
 #
+#  index_redemptions_on_nanoid                 (nanoid) UNIQUE
 #  index_redemptions_on_reward_id              (reward_id)
 #  index_redemptions_on_user_id                (user_id)
 #  index_redemptions_on_user_id_and_reward_id  (user_id,reward_id)
