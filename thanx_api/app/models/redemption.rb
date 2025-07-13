@@ -1,7 +1,7 @@
 class Redemption < ApplicationRecord
   include HasNanoid
 
-  before_save :save_reward_meta
+  before_validation :save_reward_meta
 
   belongs_to :user
   belongs_to :reward
@@ -9,6 +9,7 @@ class Redemption < ApplicationRecord
   validates :points_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def save_reward_meta
+    return unless reward
     self.points_cost ||= reward.points
     self.reward_name ||= reward.name
   end

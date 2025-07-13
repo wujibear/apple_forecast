@@ -13,36 +13,19 @@ RSpec.describe Reward, type: :model do
 
     it "prevents duplicate names" do
       duplicate_reward = build(:reward, name: "Coffee Reward")
-      expect(duplicate_reward).not_to be_valid
-    end
 
-    it "includes error message for duplicate names" do
-      duplicate_reward = build(:reward, name: "Coffee Reward")
-      duplicate_reward.valid?
-      expect(duplicate_reward.errors[:name]).to include("has already been taken")
+      aggregate_failures do
+        expect(duplicate_reward).not_to be_valid
+        expect(duplicate_reward.errors[:name]).to include("has already been taken")
+      end
     end
 
     it "prevents case insensitive duplicates" do
       duplicate_reward = build(:reward, name: "COFFEE REWARD")
-      expect(duplicate_reward).not_to be_valid
-    end
 
-    it "includes error message for case insensitive duplicates" do
-      duplicate_reward = build(:reward, name: "COFFEE REWARD")
-      duplicate_reward.valid?
-      expect(duplicate_reward.errors[:name]).to include("has already been taken")
-    end
-
-    it "prevents and errors on duplicate names" do
-      duplicate_reward = build(:reward, name: "Coffee Reward")
-      duplicate_reward2 = build(:reward, name: "COFFEE REWARD")
       aggregate_failures do
         expect(duplicate_reward).not_to be_valid
-        duplicate_reward.valid?
         expect(duplicate_reward.errors[:name]).to include("has already been taken")
-        expect(duplicate_reward2).not_to be_valid
-        duplicate_reward2.valid?
-        expect(duplicate_reward2.errors[:name]).to include("has already been taken")
       end
     end
 
