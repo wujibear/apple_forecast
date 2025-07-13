@@ -1,5 +1,5 @@
 import { useRewards, useRedeemReward } from '../hooks/useRewards';
-import { useCurrentUser } from '../hooks/useUser';
+import { useAuthState } from '../hooks/useAuthState';
 import { 
   Container, 
   Grid, 
@@ -16,7 +16,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 export default function RewardsPage() {
   const { data: rewards, isLoading, error } = useRewards();
-  const { data: user } = useCurrentUser();
+  const { user } = useAuthState();
   const redeemMutation = useRedeemReward();
 
   const handleRedeem = async (rewardId: number) => {
@@ -49,7 +49,7 @@ export default function RewardsPage() {
   }
 
   return (
-    <Container style={{ marginTop: '2rem' }}>
+    <>
       <Header as="h1" textAlign="center">
         <Icon name="gift" />
         Available Rewards
@@ -105,6 +105,6 @@ export default function RewardsPage() {
           <p>Check back later for new rewards!</p>
         </Message>
       )}
-    </Container>
+    </>
   );
 } 

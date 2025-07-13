@@ -9,6 +9,9 @@ import {
 } from "react-router";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import AppLayout from './components/Layout';
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -59,11 +62,23 @@ export default function App() {
       })
   );
 
+  // Create persister for localStorage
+  const [persister] = React.useState(() =>
+    createSyncStoragePersister({
+      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+    })
+  );
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister }}
+    >
+      <AppLayout>
+        <Outlet />
+      </AppLayout>
       {typeof window !== 'undefined' && <ReactQueryDevtools initialIsOpen={false} />}
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }
 

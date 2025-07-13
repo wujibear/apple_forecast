@@ -18,9 +18,11 @@ const apiClient: AxiosInstance = axios.create({
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
@@ -35,8 +37,10 @@ apiClient.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       // Handle unauthorized - redirect to login
-      localStorage.removeItem('auth_token');
-      window.location.href = '/login';
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth_token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -101,16 +105,25 @@ export class ApiService {
 
   // Auth
   static async login(email: string, password: string): Promise<{ user: User; token: string }> {
-    const response = await apiClient.post<{ user: User; token: string }>('/session', {
+    const response = await apiClient.post<User>('/session', {
       email_address: email,
       password: password,
     });
-    return response.data;
+    
+    // Extract token from response headers
+    const token = response.headers['x-session-token'];
+    
+    return {
+      user: response.data,
+      token: token || ''
+    };
   }
 
   static async logout(): Promise<void> {
     await apiClient.delete('/session');
-    localStorage.removeItem('auth_token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token');
+    }
   }
 }
 
