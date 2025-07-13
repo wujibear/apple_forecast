@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Redemption, type: :model do
   # Shoulda-matchers shorthand for validations
@@ -7,8 +7,8 @@ RSpec.describe Redemption, type: :model do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:reward) }
 
-  describe '#points_cost' do
-    it 'validates missing points_cost' do
+  describe "#points_cost" do
+    it "validates missing points_cost" do
       redemption = build(:redemption, points_cost: nil)
 
       aggregate_failures do
@@ -17,62 +17,62 @@ RSpec.describe Redemption, type: :model do
       end
     end
 
-    it 'validates non-numeric points_cost' do
-      redemption = build(:redemption, points_cost: 'not a number')
+    it "validates non-numeric points_cost" do
+      redemption = build(:redemption, points_cost: "not a number")
 
       aggregate_failures do
         expect(redemption).not_to be_valid
-        expect(redemption.errors[:points_cost]).to include('is not a number')
+        expect(redemption.errors[:points_cost]).to include("is not a number")
       end
     end
 
-    it 'validates negative points_cost' do
+    it "validates negative points_cost" do
       redemption = build(:redemption, points_cost: -10)
 
       aggregate_failures do
         expect(redemption).not_to be_valid
-        expect(redemption.errors[:points_cost]).to include('must be greater than or equal to 0')
+        expect(redemption.errors[:points_cost]).to include("must be greater than or equal to 0")
       end
     end
   end
 
-  describe 'associations' do
-    it 'validates missing user' do
+  describe "associations" do
+    it "validates missing user" do
       redemption = build(:redemption, user: nil)
 
       aggregate_failures do
         expect(redemption).not_to be_valid
-        expect(redemption.errors[:user]).to include('must exist')
+        expect(redemption.errors[:user]).to include("must exist")
       end
     end
 
-    it 'validates missing reward' do
+    it "validates missing reward" do
       redemption = build(:redemption, reward: nil)
 
       aggregate_failures do
         expect(redemption).not_to be_valid
-        expect(redemption.errors[:reward]).to include('must exist')
+        expect(redemption.errors[:reward]).to include("must exist")
       end
     end
   end
 
-  describe 'database constraints' do
+  describe "database constraints" do
     let(:user) { create(:user) }
     let(:reward) { create(:reward) }
 
-    it 'enforces user_id presence' do
+    it "enforces user_id presence" do
       expect {
         described_class.connection.execute("INSERT INTO redemptions (reward_id, points_cost, created_at, updated_at) VALUES (#{reward.id}, 100, '#{Time.current}', '#{Time.current}')")
       }.to raise_error(ActiveRecord::StatementInvalid)
     end
 
-    it 'enforces reward_id presence' do
+    it "enforces reward_id presence" do
       expect {
         described_class.connection.execute("INSERT INTO redemptions (user_id, points_cost, created_at, updated_at) VALUES (#{user.id}, 100, '#{Time.current}', '#{Time.current}')")
       }.to raise_error(ActiveRecord::StatementInvalid)
     end
 
-    it 'enforces points_cost presence' do
+    it "enforces points_cost presence" do
       expect {
         described_class.connection.execute("INSERT INTO redemptions (user_id, reward_id, created_at, updated_at) VALUES (#{user.id}, #{reward.id}, '#{Time.current}', '#{Time.current}')")
       }.to raise_error(ActiveRecord::StatementInvalid)
