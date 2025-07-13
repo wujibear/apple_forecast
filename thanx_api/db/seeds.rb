@@ -23,16 +23,18 @@ end
 
 puts "✅ Created default user: #{default_user.email_address} with #{default_user.points_balance} points"
 
-# Create a list of rewards using FactoryBot
-rewards = create_list(:reward, DEFAULT_REWARDS_COUNT)
-puts "✅ Created #{rewards.length} rewards"
+if Reward.count < DEFAULT_REWARDS_COUNT
+  # Create a list of rewards using FactoryBot
+  rewards = create_list(:reward, DEFAULT_REWARDS_COUNT)
+  puts "✅ Created #{rewards.length} rewards"
 
-# Sample affordable rewards for redemptions
-affordable_rewards = rewards.select { |r| r.points <= 500 }
-sampled_rewards = affordable_rewards.sample(DEFAULT_REDEMPTIONS_COUNT)
+  # Sample affordable rewards for redemptions
+  affordable_rewards = rewards.select { |r| r.points <= 500 }
+  sampled_rewards = affordable_rewards.sample(DEFAULT_REDEMPTIONS_COUNT)
 
-sampled_rewards.each do |reward|
-  create(:redemption, reward:, user: default_user)
+  sampled_rewards.each do |reward|
+    create(:redemption, reward:, user: default_user)
+  end
 end
 
 puts "✅ Created #{DEFAULT_REDEMPTIONS_COUNT} redemptions for default user"

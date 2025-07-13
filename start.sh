@@ -16,7 +16,7 @@ echo "📦 Installing dependencies..."
 # Install Rails dependencies if needed
 if [ ! -d "thanx_api/.bundle" ]; then
     echo "  - Installing API dependencies..."
-    (cd thanx_api && bundle install)
+    (cd thanx_api && bundle install && bundle exec rails db:create db:migrate db:seed)
 fi
 
 # Install Node.js dependencies if needed
