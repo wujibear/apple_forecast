@@ -5,7 +5,7 @@ module Api
       rate_limit to: 10, within: 3.minutes, only: :create, with: :render_too_many_requests
 
       def create
-        raise ActiveRecord::RecordInvalid.new(User.new), "Invalid email address or password" unless created_user
+        unauthorized! unless created_user
 
         start_new_session_for created_user
 
