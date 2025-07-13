@@ -36,4 +36,14 @@ jobs:
     - name: Run build test
       run: |
         cd thanx_client
-        npm run build 
+        npm run build
+
+    - name: Run tests
+      run: |
+        cd thanx_client
+        npm run test:run
+
+    - name: Check coverage
+      run: |
+        cd thanx_client
+        npm run test:coverage 
