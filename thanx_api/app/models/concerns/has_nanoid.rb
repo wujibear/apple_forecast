@@ -3,7 +3,8 @@ module HasNanoid
 
   included do
     before_create :generate_nanoid
-    validates :nanoid, presence: true, uniqueness: true
+    validates :nanoid, uniqueness: true, allow_nil: true
+    validates :nanoid, presence: true, on: :update
   end
 
   private
