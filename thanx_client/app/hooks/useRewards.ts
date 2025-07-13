@@ -8,7 +8,7 @@ export const rewardKeys = {
   lists: () => [...rewardKeys.all, 'list'] as const,
   list: (filters: string) => [...rewardKeys.lists(), { filters }] as const,
   details: () => [...rewardKeys.all, 'detail'] as const,
-  detail: (id: number) => [...rewardKeys.details(), id] as const,
+  detail: (nanoid: string) => [...rewardKeys.details(), nanoid] as const,
 };
 
 // Hooks
@@ -19,11 +19,11 @@ export const useRewards = () => {
   });
 };
 
-export const useReward = (id: number) => {
+export const useReward = (nanoid: string) => {
   return useQuery({
-    queryKey: rewardKeys.detail(id),
-    queryFn: () => ApiService.getReward(id),
-    enabled: !!id,
+    queryKey: rewardKeys.detail(nanoid),
+    queryFn: () => ApiService.getReward(nanoid),
+    enabled: !!nanoid,
   });
 };
 
@@ -31,8 +31,8 @@ export const useRedeemReward = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: (rewardId: number) => ApiService.redeemReward(rewardId),
-    onSuccess: (data, rewardId) => {
+    mutationFn: (rewardNanoid: string) => ApiService.redeemReward(rewardNanoid),
+    onSuccess: (data, rewardNanoid) => {
       // Invalidate and refetch rewards list
       queryClient.invalidateQueries({ queryKey: rewardKeys.lists() });
       
@@ -40,7 +40,7 @@ export const useRedeemReward = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       
       // Optionally update the specific reward if it has redemption count
-      queryClient.invalidateQueries({ queryKey: rewardKeys.detail(rewardId) });
+      queryClient.invalidateQueries({ queryKey: rewardKeys.detail(rewardNanoid) });
     },
     onError: (error: any) => {
       console.error('Failed to redeem reward:', error);

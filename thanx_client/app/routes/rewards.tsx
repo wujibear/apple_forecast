@@ -19,9 +19,9 @@ export default function RewardsPage() {
   const { user } = useAuthState();
   const redeemMutation = useRedeemReward();
 
-  const handleRedeem = async (rewardId: number) => {
+  const handleRedeem = async (rewardNanoid: string) => {
     try {
-      await redeemMutation.mutateAsync(rewardId);
+      await redeemMutation.mutateAsync(rewardNanoid);
     } catch (error) {
       console.error('Failed to redeem reward:', error);
     }

@@ -53,7 +53,7 @@ export interface ApiResponse<T> {
 }
 
 export interface Reward {
-  id: number;
+  nanoid: string;
   name: string;
   points: number;
   created_at: string;
@@ -61,7 +61,7 @@ export interface Reward {
 }
 
 export interface User {
-  id: number;
+  nanoid: string;
   email_address: string;
   points_balance: number;
   created_at: string;
@@ -69,9 +69,10 @@ export interface User {
 }
 
 export interface Redemption {
-  id: number;
-  user_id: number;
-  reward_id: number;
+  nanoid: string;
+  user_nanoid: string;
+  reward_nanoid: string;
+  reward_name: string;
   points_cost: number;
   created_at: string;
   updated_at: string;
@@ -87,13 +88,13 @@ export class ApiService {
     return response.data;
   }
 
-  static async getReward(id: number): Promise<Reward> {
-    const response = await apiClient.get<Reward>(`/rewards/${id}`);
+  static async getReward(nanoid: string): Promise<Reward> {
+    const response = await apiClient.get<Reward>(`/rewards/${nanoid}`);
     return response.data;
   }
 
-  static async redeemReward(id: number): Promise<Redemption> {
-    const response = await apiClient.post<Redemption>(`/rewards/${id}/redeem`);
+  static async redeemReward(nanoid: string): Promise<Redemption> {
+    const response = await apiClient.post<Redemption>(`/rewards/${nanoid}/redeem`);
     return response.data;
   }
 

@@ -55,7 +55,7 @@ export const useAuthData = () => {
       return failureCount < 3;
     },
     select: (data) => ({
-      id: data.id,
+      nanoid: data.nanoid,
       email_address: data.email_address,
       created_at: data.created_at,
       updated_at: data.updated_at
@@ -99,7 +99,7 @@ export const useLogin = () => {
       
       // Set authentication data (email, id, etc.)
       const authData = {
-        id: data.user.id,
+        nanoid: data.user.nanoid,
         email_address: data.user.email_address,
         created_at: data.user.created_at,
         updated_at: data.user.updated_at
