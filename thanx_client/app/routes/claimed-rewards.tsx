@@ -65,7 +65,7 @@ export default function ClaimedRewards() {
           
           <Table.Body>
             {redemptionsList.map((redemption: Redemption) => (
-              <Table.Row key={redemption.id}>
+              <Table.Row key={redemption.nanoid}>
                 <Table.Cell>
                   {redemption.reward_name || 'Unknown Reward'}
                 </Table.Cell>

@@ -65,7 +65,7 @@ export default function RewardsPage() {
 
       <Grid stackable columns={3}>
         {rewards?.map((reward) => (
-          <Grid.Column key={reward.id}>
+          <Grid.Column key={reward.nanoid}>
             <Card fluid>
               <CardContent>
                 <Card.Header>
@@ -84,7 +84,7 @@ export default function RewardsPage() {
                 <Button
                   fluid
                   color="green"
-                  onClick={() => handleRedeem(reward.id)}
+                  onClick={() => handleRedeem(reward.nanoid)}
                   loading={redeemMutation.isPending}
                   disabled={!user || user.points_balance < reward.points}
                 >
