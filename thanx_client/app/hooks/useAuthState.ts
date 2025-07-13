@@ -1,12 +1,14 @@
-import { useCurrentUser } from './useUser';
+import { useAuthData, useCurrentUser } from './useAuth';
 
 export const useAuthState = () => {
-  const { data: user, isLoading, error } = useCurrentUser();
+  const { data: authData, isLoading: authLoading } = useAuthData();
+  const { data: userData, isLoading: userLoading, error } = useCurrentUser();
 
   return {
-    user,
-    isLoading,
-    isAuthenticated: !!user,
-    error
+    user: userData, // Fresh data including points balance
+    isLoading: authLoading || userLoading,
+    isAuthenticated: !!authData, // Use auth data for authentication check
+    error,
+    authData // Include auth data for debugging
   };
 }; 

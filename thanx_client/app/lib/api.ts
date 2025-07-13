@@ -111,7 +111,7 @@ export class ApiService {
     });
     
     // Extract token from response headers
-    const token = response.headers['x-session-token'];
+    const token = response.headers['x-session-token'] || response.headers['X-Session-Token'];
     
     return {
       user: response.data,
