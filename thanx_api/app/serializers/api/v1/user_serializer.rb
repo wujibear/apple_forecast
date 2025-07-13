@@ -12,8 +12,6 @@ module Api
         fields :points_balance
 
         association :sessions, blueprint: SessionSerializer
-        association :redemptions, blueprint: RedemptionSerializer
-        association :rewards, blueprint: RewardSerializer
       end
     end
   end

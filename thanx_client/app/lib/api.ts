@@ -103,6 +103,12 @@ export class ApiService {
     return response.data;
   }
 
+  // Redemptions
+  static async getRedemptions(): Promise<Redemption[]> {
+    const response = await apiClient.get<Redemption[]>('/redemptions');
+    return response.data;
+  }
+
   // Auth
   static async login(email: string, password: string): Promise<{ user: User; token: string }> {
     const response = await apiClient.post<User>('/session', {

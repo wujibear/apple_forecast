@@ -9,6 +9,7 @@ import {
   Form,
   Message
 } from 'semantic-ui-react';
+import { Link, useLocation } from 'react-router';
 import { useAuthState } from '../hooks/useAuthState';
 import { useLogin, useLogout } from '../hooks/useAuth';
 
@@ -22,6 +23,7 @@ export default function Layout({ children }: LayoutProps) {
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
   const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
   const [loginForm, setLoginForm] = React.useState({ email: '', password: '' });
+  const location = useLocation();
 
   const handleLogin = () => {
     login(loginForm, {
@@ -44,10 +46,23 @@ export default function Layout({ children }: LayoutProps) {
     <div>
       <Menu fixed="top" inverted>
         <Container>
-          <Menu.Item header>
+          <Menu.Item header as={Link} to="/">
             <Icon name="gift" />
             Thanx Rewards
           </Menu.Item>
+          
+          {isAuthenticated && (
+            <>
+              <Menu.Item as={Link} to="/rewards" active={location.pathname === '/rewards'}>
+                <Icon name="gift" />
+                Rewards
+              </Menu.Item>
+              <Menu.Item as={Link} to="/claimed-rewards" active={location.pathname === '/claimed-rewards'}>
+                <Icon name="clock" />
+                History
+              </Menu.Item>
+            </>
+          )}
           
           <Menu.Menu position="right">
             {isLoading ? (
@@ -66,6 +81,11 @@ export default function Layout({ children }: LayoutProps) {
                   pointing="top right"
                 >
                   <Dropdown.Menu>
+                    <Dropdown.Item disabled>
+                      <Icon name="dollar" />
+                      {user.points_balance.toLocaleString()} points
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
                     <Dropdown.Item onClick={handleLogout} disabled={isLoggingOut}>
                       <Icon name="sign-out" />
                       Log Out

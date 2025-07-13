@@ -4,13 +4,7 @@ module Api
       identifier :id
 
       view :summary do
-        fields :points_cost
-        association :reward, blueprint: RewardSerializer
-      end
-
-      view :detail do
-        include_view :summary
-        association :user, blueprint: UserSerializer
+        fields :points_cost, :reward_name
       end
     end
   end

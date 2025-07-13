@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_163741) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_13_050746) do
   create_table "redemptions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "reward_id", null: false
     t.integer "points_cost", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reward_name", null: false
     t.index ["reward_id"], name: "index_redemptions_on_reward_id"
     t.index ["user_id", "reward_id"], name: "index_redemptions_on_user_id_and_reward_id"
     t.index ["user_id"], name: "index_redemptions_on_user_id"

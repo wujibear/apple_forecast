@@ -13,12 +13,6 @@ module Api
         render json: Api::V1::RewardSerializer.render_as_json(reward, view: :detail)
       end
 
-      def redeem
-        redemption = RedeemReward.new(current_user, reward).call
-
-        render json: Api::V1::RedemptionSerializer.render_as_json(redemption, view: :detail), status: :created
-      end
-
       private
 
       def reward

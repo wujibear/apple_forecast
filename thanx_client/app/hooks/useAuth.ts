@@ -85,6 +85,9 @@ export const useLogin = () => {
       
       // Also invalidate auth query to ensure it's properly cached
       queryClient.invalidateQueries({ queryKey: ['auth'] });
+      
+      // Invalidate redemptions query to ensure fresh data
+      queryClient.invalidateQueries({ queryKey: ['redemptions'] });
     },
     onError: (error: any) => {
       console.error('Login failed:', error);
