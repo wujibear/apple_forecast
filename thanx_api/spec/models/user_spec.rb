@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   # Shoulda-matchers shorthand for validations
-  it { should validate_presence_of(:password) }
-  it { should have_secure_password }
-  it { should have_many(:sessions).dependent(:destroy) }
-  it { should have_many(:redemptions).dependent(:destroy) }
-  it { should have_many(:rewards).through(:redemptions) }
+  it { is_expected.to validate_presence_of(:password) }
+  it { is_expected.to have_secure_password }
+  it { is_expected.to have_many(:sessions).dependent(:destroy) }
+  it { is_expected.to have_many(:redemptions).dependent(:destroy) }
+  it { is_expected.to have_many(:rewards).through(:redemptions) }
 
   # Test email presence manually since shoulda-matchers has issues with multiple validations
   describe '#email_address' do

@@ -1,9 +1,11 @@
 require "rails_helper"
 
 RSpec.describe RedeemReward do
+  subject(:redemption) { described_class.new(user, reward).call }
+
   let(:user) { create(:user, points_balance: 1000) }
   let(:reward) { create(:reward, points: 500) }
-  subject(:redemption) { described_class.new(user, reward).call }
+
 
   describe "#call" do
     context "when user has sufficient points" do

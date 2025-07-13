@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Reward, type: :model do
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:points) }
-  it { should validate_numericality_of(:points).is_greater_than(0) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:points) }
+  it { is_expected.to validate_numericality_of(:points).is_greater_than(0) }
 
   # Test uniqueness manually since shoulda-matchers has issues with NOT NULL constraints
   describe '#name' do

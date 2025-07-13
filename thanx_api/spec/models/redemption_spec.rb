@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Redemption, type: :model do
   # Shoulda-matchers shorthand for validations
-  it { should validate_presence_of(:points_cost) }
-  it { should validate_numericality_of(:points_cost).is_greater_than_or_equal_to(0) }
-  it { should belong_to(:user) }
-  it { should belong_to(:reward) }
+  it { is_expected.to validate_presence_of(:points_cost) }
+  it { is_expected.to validate_numericality_of(:points_cost).is_greater_than_or_equal_to(0) }
+  it { is_expected.to belong_to(:user) }
+  it { is_expected.to belong_to(:reward) }
 
   describe '#points_cost' do
     it 'requires points_cost' do

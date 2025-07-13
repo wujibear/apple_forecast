@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { renderWithProviders } from '../test/utils';
 import Layout from './Layout';
 
-// Mock the auth hooks
+// Mock the auth HOOKS
 vi.mock('../hooks/useAuthState', () => ({
   useAuthState: () => ({
     user: null,
