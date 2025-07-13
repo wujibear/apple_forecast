@@ -67,7 +67,7 @@ export default function ClaimedRewards() {
             {redemptionsList.map((redemption: Redemption) => (
               <Table.Row key={redemption.id}>
                 <Table.Cell>
-                  {redemption.reward?.name || 'Unknown Reward'}
+                  {redemption.reward_name || 'Unknown Reward'}
                 </Table.Cell>
                 <Table.Cell>{redemption.points_cost?.toLocaleString()} points</Table.Cell>
                 <Table.Cell>
