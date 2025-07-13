@@ -10,9 +10,8 @@ RSpec.describe "Api::V1::Sessions", type: :request do
       it "creates a new session and returns user details" do
         post "/api/v1/session", params: valid_credentials
 
-        expect(response).to have_http_status(:created)
-
         aggregate_failures do
+          expect(response).to have_http_status(:created)
           expect(response.parsed_body["email_address"]).to eq("test@example.com")
           expect(response.parsed_body["nanoid"]).to be_present
           expect(response.parsed_body["points_balance"]).to eq(0)
