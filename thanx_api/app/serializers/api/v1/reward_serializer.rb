@@ -9,7 +9,7 @@ module Api
 
       view :detail do
         include_view :summary
-        association :redemptions, blueprint: RedemptionSerializer
+        association :redemptions, blueprint: RedemptionSerializer, view: :summary
       end
     end
   end

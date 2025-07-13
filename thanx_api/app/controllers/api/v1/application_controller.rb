@@ -6,11 +6,12 @@ module Api
       before_action :set_default_format
 
       # Handle common exceptions with appropriate HTTP status codes
+      rescue_from StandardError, with: :render_internal_server_error
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
       rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
       rescue_from ActionController::ParameterMissing, with: :render_bad_request
+      rescue_from ArgumentError, with: :render_bad_request
       rescue_from Authentication::UnauthorizedError, with: :render_unauthorized
-      rescue_from StandardError, with: :render_internal_server_error
 
       private
 
@@ -26,12 +27,19 @@ module Api
         }, status: :not_found
       end
 
-      def render_unprocessable_entity(exception)
-        render json: {
-          error: "unprocessable_entity",
-          message: exception.message,
-          details: exception.record&.errors&.full_messages
-        }, status: :unprocessable_entity
+      def render_unprocessable_entity(exception_or_message = nil)
+        if exception_or_message.is_a?(String)
+          render json: {
+            error: "unprocessable_entity",
+            message: exception_or_message
+          }, status: :unprocessable_entity
+        else
+          render json: {
+            error: "unprocessable_entity",
+            message: exception_or_message.message,
+            details: exception_or_message.record&.errors&.full_messages
+          }, status: :unprocessable_entity
+        end
       end
 
       def render_bad_request(exception)

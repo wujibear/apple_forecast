@@ -12,11 +12,12 @@ RSpec.describe "Api::V1::Sessions", type: :request do
 
         expect(response).to have_http_status(:created)
 
-        json_response = JSON.parse(response.body)
-        expect(json_response["email_address"]).to eq("test@example.com")
-        expect(json_response["nanoid"]).to be_present
-        expect(json_response["points_balance"]).to eq(0)
-        expect(json_response["password_digest"]).to be_nil
+        aggregate_failures do
+          expect(response.parsed_body["email_address"]).to eq("test@example.com")
+          expect(response.parsed_body["nanoid"]).to be_present
+          expect(response.parsed_body["points_balance"]).to eq(0)
+          expect(response.parsed_body["password_digest"]).to be_nil
+        end
       end
 
       it "creates a session record" do
@@ -36,15 +37,16 @@ RSpec.describe "Api::V1::Sessions", type: :request do
       it "returns unprocessable entity status" do
         post "/api/v1/session", params: invalid_credentials
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it "returns error message" do
         post "/api/v1/session", params: invalid_credentials
 
-        json_response = JSON.parse(response.body)
-        expect(json_response["error"]).to eq("unauthorized")
-        expect(json_response["message"]).to eq("Authentication required")
+        aggregate_failures do
+          expect(response.parsed_body["error"]).to eq("unprocessable_entity")
+          expect(response.parsed_body["message"]).to eq("Invalid email address or password")
+        end
       end
 
       it "does not create a session" do
@@ -69,10 +71,10 @@ RSpec.describe "Api::V1::Sessions", type: :request do
     end
 
     context "with non-existent user" do
-      it "returns unauthorized status" do
+      it "returns unprocessable entity status" do
         post "/api/v1/session", params: { email_address: "nonexistent@example.com", password: "password123" }
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -85,15 +87,19 @@ RSpec.describe "Api::V1::Sessions", type: :request do
       it "terminates the session" do
         delete "/api/v1/session", headers: auth_headers
 
-        expect(response).to have_http_status(:no_content)
-        expect(Session.exists?(session.id)).to be false
+        aggregate_failures do
+          expect(response).to have_http_status(:no_content)
+          expect(Session.exists?(session.id)).to be false
+        end
       end
 
       it "returns no content status" do
         delete "/api/v1/session", headers: auth_headers
 
-        expect(response).to have_http_status(:no_content)
-        expect(response.body).to be_empty
+        aggregate_failures do
+          expect(response).to have_http_status(:no_content)
+          expect(response.body).to be_empty
+        end
       end
     end
 
@@ -107,8 +113,7 @@ RSpec.describe "Api::V1::Sessions", type: :request do
       it "returns error message" do
         delete "/api/v1/session"
 
-        json_response = JSON.parse(response.body)
-        expect(json_response["error"]).to eq("unauthorized")
+        expect(response.parsed_body["error"]).to eq("unauthorized")
       end
     end
 

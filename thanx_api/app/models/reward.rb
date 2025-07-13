@@ -1,6 +1,9 @@
 class Reward < ApplicationRecord
   include HasNanoid
 
+  has_many :redemptions, dependent: :destroy
+  has_many :users, through: :redemptions
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :points, presence: true, numericality: { greater_than: 0 }
 end
