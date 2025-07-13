@@ -3,7 +3,7 @@ module Api
     class RedemptionsController < ApplicationController
       def index
         redemptions = current_user.redemptions.order(created_at: :desc)
-        
+
         render json: Api::V1::RedemptionSerializer.render_as_json(redemptions, view: :detail)
       end
 
@@ -20,4 +20,4 @@ module Api
       end
     end
   end
-end 
+end

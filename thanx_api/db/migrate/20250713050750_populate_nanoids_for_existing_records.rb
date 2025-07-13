@@ -20,4 +20,4 @@ class PopulateNanoidsForExistingRecords < ActiveRecord::Migration[8.0]
     # This migration cannot be safely reversed
     raise ActiveRecord::IrreversibleMigration
   end
-end 
+end

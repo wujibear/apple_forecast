@@ -3,4 +3,4 @@ class AddSecureTokenToSessions < ActiveRecord::Migration[8.0]
     add_column :sessions, :token, :string
     add_index :sessions, :token, unique: true
   end
-end 
+end

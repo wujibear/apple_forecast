@@ -1,6 +1,6 @@
 class Redemption < ApplicationRecord
   include HasNanoid
-  
+
   before_save :save_reward_meta
 
   belongs_to :user

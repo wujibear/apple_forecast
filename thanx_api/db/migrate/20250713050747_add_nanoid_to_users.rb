@@ -3,4 +3,4 @@ class AddNanoidToUsers < ActiveRecord::Migration[8.0]
     add_column :users, :nanoid, :string
     add_index :users, :nanoid, unique: true
   end
-end 
+end

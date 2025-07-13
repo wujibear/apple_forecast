@@ -6,10 +6,10 @@ Rails.application.routes.draw do
       resources :passwords, param: :token, only: [ :create, :update ]
       resource :user, only: [ :show, :update ]
       resources :redemptions, only: [ :index ]
-      
+
       resources :rewards, only: [ :index, :show ] do
         member do
-          post :redeem, to: 'redemptions#create'
+          post :redeem, to: "redemptions#create"
         end
       end
     end

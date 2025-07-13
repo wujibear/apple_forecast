@@ -42,7 +42,7 @@ module Authentication
     payload = JwtService.decode(token)
     return unless payload
 
-    session_id = payload['session_id']
+    session_id = payload["session_id"]
     return unless session_id
 
     Session.find_by(id: session_id)
@@ -59,7 +59,7 @@ module Authentication
   def start_new_session_for(user)
     user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
       Current.session = session
-      
+
       # Return the secure token (not the session ID)
       response.headers["X-Session-Token"] = session.token
     end

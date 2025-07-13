@@ -1,10 +1,10 @@
 class PopulateRewardNameInRedemptions < ActiveRecord::Migration[8.0]
   def up
     execute <<-SQL
-      UPDATE redemptions 
+      UPDATE redemptions#{' '}
       SET reward_name = (
-        SELECT name 
-        FROM rewards 
+        SELECT name#{' '}
+        FROM rewards#{' '}
         WHERE rewards.id = redemptions.reward_id
       )
     SQL
@@ -12,4 +12,4 @@ class PopulateRewardNameInRedemptions < ActiveRecord::Migration[8.0]
 
   def down
   end
-end 
+end

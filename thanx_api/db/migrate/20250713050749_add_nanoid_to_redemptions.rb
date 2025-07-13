@@ -3,4 +3,4 @@ class AddNanoidToRedemptions < ActiveRecord::Migration[8.0]
     add_column :redemptions, :nanoid, :string
     add_index :redemptions, :nanoid, unique: true
   end
-end 
+end
