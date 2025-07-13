@@ -17,6 +17,23 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import 'semantic-ui-css/semantic.min.css';
 
+// Client-only component to prevent hydration mismatches
+function ClientOnlyDevtools() {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return process.env.NODE_ENV === 'development' ? (
+    <ReactQueryDevtools initialIsOpen={false} />
+  ) : null;
+}
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -94,7 +111,7 @@ export default function App() {
       <AppLayout>
         <Outlet />
       </AppLayout>
-      {typeof window !== 'undefined' && <ReactQueryDevtools initialIsOpen={false} />}
+      <ClientOnlyDevtools />
     </PersistQueryClientProvider>
   );
 }
