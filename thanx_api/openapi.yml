@@ -1,0 +1,440 @@
+openapi: 3.0.3
+info:
+  title: Thanx Rewards API
+  description: |
+    API for managing rewards and redemptions in the Thanx Rewards system.
+    
+    ## Authentication
+    Most endpoints require authentication using Bearer tokens. Include the token in the Authorization header:
+    ```
+    Authorization: Bearer <your-session-token>
+    ```
+    
+    ## Rate Limiting
+    Login attempts are rate limited to 10 attempts per 3 minutes.
+    
+    ## Error Responses
+    All endpoints may return the following error responses:
+    - `400 Bad Request` - Invalid request parameters
+    - `401 Unauthorized` - Authentication required or invalid credentials
+    - `404 Not Found` - Resource not found
+    - `422 Unprocessable Entity` - Validation errors
+    - `429 Too Many Requests` - Rate limit exceeded
+    - `500 Internal Server Error` - Server error
+  version: 1.0.0
+  contact:
+    name: Thanx Rewards Team
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://api.thanxrewards.com
+    description: Production server
+
+security:
+  - BearerAuth: []
+
+paths:
+  /api/v1/session:
+    post:
+      summary: Create a new session (login)
+      description: Authenticate a user and create a new session
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_address
+                - password
+              properties:
+                email_address:
+                  type: string
+                  format: email
+                  description: User's email address
+                  example: "user@example.com"
+                password:
+                  type: string
+                  description: User's password
+                  example: "password123"
+      responses:
+        '201':
+          description: Session created successfully
+          headers:
+            X-Session-Token:
+              description: Session token for authentication
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        '422':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many login attempts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    delete:
+      summary: Destroy current session (logout)
+      description: Terminate the current user session
+      tags:
+        - Authentication
+      responses:
+        '204':
+          description: Session terminated successfully
+
+  /api/v1/passwords:
+    post:
+      summary: Request password reset
+      description: Send a password reset email to the user
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_address
+              properties:
+                email_address:
+                  type: string
+                  format: email
+                  description: User's email address
+                  example: "user@example.com"
+      responses:
+        '202':
+          description: Password reset email sent (if user exists)
+    
+    put:
+      summary: Reset password
+      description: Reset password using the token from email
+      tags:
+        - Authentication
+      security: []
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Password reset token from email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - password_confirmation
+              properties:
+                password:
+                  type: string
+                  minLength: 6
+                  description: New password
+                  example: "newpassword123"
+                password_confirmation:
+                  type: string
+                  description: Password confirmation
+                  example: "newpassword123"
+      responses:
+        '204':
+          description: Password reset successfully
+        '422':
+          description: Invalid token or validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/user:
+    get:
+      summary: Get current user
+      description: Retrieve the current authenticated user's information
+      tags:
+        - Users
+      responses:
+        '200':
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+    
+    put:
+      summary: Update current user
+      description: Update the current authenticated user's information
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email_address:
+                  type: string
+                  format: email
+                  description: New email address
+                  example: "newemail@example.com"
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        '422':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/rewards:
+    get:
+      summary: List all rewards
+      description: Retrieve a list of all available rewards
+      tags:
+        - Rewards
+      security: []
+      responses:
+        '200':
+          description: List of rewards retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RewardSummary'
+
+  /api/v1/rewards/{id}:
+    get:
+      summary: Get reward details
+      description: Retrieve detailed information about a specific reward
+      tags:
+        - Rewards
+      security: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Reward nanoid
+          example: "reward_abc123"
+      responses:
+        '200':
+          description: Reward details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewardDetail'
+        '404':
+          description: Reward not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/rewards/{id}/redeem:
+    post:
+      summary: Redeem a reward
+      description: Redeem a reward for the current user
+      tags:
+        - Redemptions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Reward nanoid to redeem
+          example: "reward_abc123"
+      responses:
+        '201':
+          description: Reward redeemed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedemptionDetail'
+        '404':
+          description: Reward not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Insufficient points or other validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/v1/redemptions:
+    get:
+      summary: List user redemptions
+      description: Retrieve a list of the current user's redemptions
+      tags:
+        - Redemptions
+      responses:
+        '200':
+          description: List of redemptions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RedemptionDetail'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Include the session token in the Authorization header.
+        The token is returned in the X-Session-Token header after login.
+
+  schemas:
+    UserSummary:
+      type: object
+      properties:
+        nanoid:
+          type: string
+          description: Unique identifier for the user
+          example: "user_abc123"
+        email_address:
+          type: string
+          format: email
+          description: User's email address
+          example: "user@example.com"
+
+    UserDetail:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/UserSummary'
+        - type: object
+          properties:
+            points_balance:
+              type: integer
+              minimum: 0
+              description: Current points balance
+              example: 1000
+            sessions:
+              type: array
+              items:
+                $ref: '#/components/schemas/Session'
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Session ID
+          example: 1
+        user_agent:
+          type: string
+          description: User agent string
+          example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+        ip_address:
+          type: string
+          format: ipv4
+          description: IP address
+          example: "192.168.1.1"
+        created_at:
+          type: string
+          format: date-time
+          description: Session creation timestamp
+          example: "2023-01-01T12:00:00Z"
+
+    RewardSummary:
+      type: object
+      properties:
+        nanoid:
+          type: string
+          description: Unique identifier for the reward
+          example: "reward_abc123"
+        name:
+          type: string
+          description: Reward name
+          example: "Free Coffee"
+        points:
+          type: integer
+          minimum: 1
+          description: Points required to redeem this reward
+          example: 500
+
+    RewardDetail:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/RewardSummary'
+        - type: object
+          properties:
+            redemptions:
+              type: array
+              items:
+                $ref: '#/components/schemas/RedemptionSummary'
+
+    RedemptionSummary:
+      type: object
+      properties:
+        nanoid:
+          type: string
+          description: Unique identifier for the redemption
+          example: "redemption_abc123"
+        points_cost:
+          type: integer
+          minimum: 0
+          description: Points spent on this redemption
+          example: 500
+        reward_name:
+          type: string
+          description: Name of the redeemed reward
+          example: "Free Coffee"
+
+    RedemptionDetail:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/RedemptionSummary'
+        - type: object
+          properties:
+            created_at:
+              type: string
+              format: date-time
+              description: Redemption timestamp
+              example: "2023-01-01T12:00:00Z"
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error type
+          example: "unprocessable_entity"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Invalid email address or password"
+        details:
+          type: array
+          items:
+            type: string
+          description: Detailed validation errors (when available)
+          example: ["Email address is invalid", "Password is too short"] 

@@ -16,6 +16,10 @@ A Rails API + React client application for managing rewards.
    - Email: `user@example.com`
    - Password: `password123`
 
+4. **View API documentation (optional):**
+   - **Interactive Docs**: http://localhost:3000/docs
+   - **OpenAPI Spec**: http://localhost:3000/api-docs
+
 That's it! You can now browse rewards, redeem them, and view your claimed rewards.
 
 ## Development Setup
@@ -63,6 +67,7 @@ That's it! You can now browse rewards, redeem them, and view your claimed reward
 
 - **Rails API**: http://localhost:3000
 - **React Client**: http://localhost:5173
+- **API Documentation**: http://localhost:3000/docs
 
 ### Development Commands
 

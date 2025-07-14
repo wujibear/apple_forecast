@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # API Documentation
+  get '/api-docs', to: 'docs#index'
+  get '/docs', to: 'docs#ui'
+  
   # API routes
   namespace :api do
     namespace :v1 do
