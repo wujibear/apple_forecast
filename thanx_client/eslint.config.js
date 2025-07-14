@@ -20,6 +20,24 @@ export default [
           jsx: true,
         },
       },
+      globals: {
+        // Browser globals
+        window: 'readonly',
+        document: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        console: 'readonly',
+        // Node.js globals
+        process: 'readonly',
+        global: 'readonly',
+        Buffer: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        // Common globals
+        module: 'readonly',
+        exports: 'readonly',
+        require: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': typescript,
@@ -44,9 +62,14 @@ export default [
       'react/display-name': 'off', // Conflicts with some patterns
 
       // TypeScript rules
+      'no-unused-vars': 'off', // Turn off base rule
       '@typescript-eslint/no-unused-vars': [
         'error',
-        { argsIgnorePattern: '^_' },
+        { 
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
@@ -67,10 +90,28 @@ export default [
     },
   },
   {
-    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/test/**/*.{ts,tsx}'],
     languageOptions: {
       globals: {
         jest: 'readonly',
+        vi: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        // Browser globals for testing
+        window: 'readonly',
+        document: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        console: 'readonly',
+        // Node.js globals for testing
+        global: 'readonly',
+        process: 'readonly',
       },
     },
     rules: {

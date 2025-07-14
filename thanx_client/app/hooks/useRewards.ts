@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ApiService } from '../lib/api';
-import type { Reward, Redemption } from '../lib/api';
 
 // Query keys
 export const rewardKeys = {

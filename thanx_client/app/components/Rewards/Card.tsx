@@ -5,7 +5,7 @@ import type { Reward } from '../../lib/api';
 interface RewardCardProps {
   reward: Reward;
   userPointsBalance?: number;
-  onRedeem: (rewardNanoid: string) => void;
+  onRedeem: () => void;
   isRedeeming: boolean;
 }
 
@@ -36,7 +36,7 @@ export default function RewardCard({
         <Button
           fluid
           color="green"
-          onClick={() => onRedeem(reward.nanoid)}
+          onClick={onRedeem}
           loading={isRedeeming}
           disabled={!canRedeem}
         >

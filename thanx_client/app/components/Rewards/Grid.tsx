@@ -6,7 +6,7 @@ import RewardCard from './Card';
 interface RewardsGridProps {
   rewards: Reward[];
   userPointsBalance?: number;
-  onRedeem: (rewardNanoid: string) => void;
+  onRedeem: (_rewardNanoid: string) => void;
   isRedeeming: boolean;
 }
 
@@ -23,7 +23,7 @@ export default function RewardsGrid({
           <RewardCard
             reward={reward}
             userPointsBalance={userPointsBalance}
-            onRedeem={onRedeem}
+            onRedeem={() => onRedeem(reward.nanoid)}
             isRedeeming={isRedeeming}
           />
         </Grid.Column>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Header, Icon, Loader } from 'semantic-ui-react';
 import { useRewards, useRedeemReward } from '../hooks/useRewards';
 import { useAuthState } from '../hooks/useAuthState';
-import { LoadingMessage, ErrorMessage } from '../components/responses';
+import { ErrorMessage } from '../components/responses';
 import { Grid, Empty, PointsBalance } from '../components/Rewards';
 import 'semantic-ui-css/semantic.min.css';
 
