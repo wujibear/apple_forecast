@@ -36,7 +36,7 @@ export default function RewardCard({
         <Button
           fluid
           color="green"
-          onClick={onRedeem}
+          onClick={() => onRedeem()}
           loading={isRedeeming}
           disabled={!canRedeem}
         >

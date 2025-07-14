@@ -42,7 +42,7 @@ describe('RewardCard', () => {
     );
 
     fireEvent.click(screen.getByText('Redeem Reward'));
-    expect(onRedeem).toHaveBeenCalledWith('test-nanoid');
+    expect(onRedeem).toHaveBeenCalledWith();
   });
 
   it('shows loading state when isRedeeming is true', () => {
