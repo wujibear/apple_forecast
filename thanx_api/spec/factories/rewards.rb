@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :reward do
-    sequence(:name) { |n| "Reward #{n}" }
-    points { rand(10..1000) }
+    name { Faker::Commerce.product_name }
+    points { Faker::Number.number(digits: 4) }
   end
 end

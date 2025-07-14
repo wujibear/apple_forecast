@@ -1,7 +1,7 @@
 module Api
   module V1
     class RewardSerializer < BaseSerializer
-      identifier :id
+      identifier :nanoid
 
       view :summary do
         fields :name, :points
@@ -9,7 +9,7 @@ module Api
 
       view :detail do
         include_view :summary
-        association :redemptions, blueprint: RedemptionSerializer
+        association :redemptions, blueprint: RedemptionSerializer, view: :summary
       end
     end
   end

@@ -1,6 +1,8 @@
 module Api
   module V1
     class RewardsController < ApplicationController
+      allow_unauthenticated_access only: %i[ index show ]
+
       def index
         rewards = Reward.all
 
@@ -11,16 +13,10 @@ module Api
         render json: Api::V1::RewardSerializer.render_as_json(reward, view: :detail)
       end
 
-      def redeem
-        redemption = RedeemReward.new(current_user, reward).call
-
-        render json: Api::V1::RedemptionSerializer.render_as_json(redemption, view: :detail), status: :created
-      end
-
       private
 
       def reward
-        @reward ||= Reward.find(params[:id])
+        @reward ||= Reward.find_by!(nanoid: params[:id])
       end
     end
   end

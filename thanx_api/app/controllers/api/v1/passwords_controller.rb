@@ -2,7 +2,6 @@ module Api
   module V1
     class PasswordsController < ApplicationController
       allow_unauthenticated_access
-      before_action :set_user_by_token, only: %i[ update ]
 
       rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :render_unprocessable_entity
 

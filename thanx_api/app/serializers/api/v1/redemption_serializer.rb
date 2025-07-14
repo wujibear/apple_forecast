@@ -1,16 +1,10 @@
 module Api
   module V1
     class RedemptionSerializer < BaseSerializer
-      identifier :id
+      identifier :nanoid
 
       view :summary do
-        fields :points_cost
-        association :reward, blueprint: RewardSerializer
-      end
-
-      view :detail do
-        include_view :summary
-        association :user, blueprint: UserSerializer
+        fields :points_cost, :reward_name
       end
     end
   end

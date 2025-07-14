@@ -1,13 +1,19 @@
 Rails.application.routes.draw do
+  # API Documentation
+  get '/api-docs', to: 'docs#index'
+  get '/docs', to: 'docs#ui'
+  
   # API routes
   namespace :api do
     namespace :v1 do
       resource :session, only: [ :create, :destroy ]
       resources :passwords, param: :token, only: [ :create, :update ]
       resource :user, only: [ :show, :update ]
+      resources :redemptions, only: [ :index ]
+
       resources :rewards, only: [ :index, :show ] do
         member do
-          post :redeem
+          post :redeem, to: "redemptions#create"
         end
       end
     end

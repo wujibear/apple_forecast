@@ -1,5 +1,30 @@
 # Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+inherit_gem: 
+  rubocop-rails-omakase: rubocop.yml
+
+plugins: rubocop-rspec
+
+# Enable new cops by default
+AllCops:
+  NewCops: enable
+
+# RSpec-specific configurations
+RSpec/IncludeExamples:
+  Enabled: true
+
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 12
+
+# Include spec files in string literal style checks
+Style/StringLiterals:
+  Include:
+    - app/**/*
+    - config/**/*
+    - lib/**/*
+    - test/**/*
+    - spec/**/*
+    - Gemfile
 
 # Overwrite or add rules to create your own house style
 #

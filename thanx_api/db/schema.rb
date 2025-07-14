@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_163741) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_13_050751) do
   create_table "redemptions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "reward_id", null: false
     t.integer "points_cost", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reward_name", null: false
+    t.string "nanoid"
+    t.index ["nanoid"], name: "index_redemptions_on_nanoid", unique: true
     t.index ["reward_id"], name: "index_redemptions_on_reward_id"
     t.index ["user_id", "reward_id"], name: "index_redemptions_on_user_id_and_reward_id"
     t.index ["user_id"], name: "index_redemptions_on_user_id"
@@ -27,7 +30,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_163741) do
     t.integer "points", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nanoid"
     t.index ["name"], name: "index_rewards_on_name", unique: true
+    t.index ["nanoid"], name: "index_rewards_on_nanoid", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -36,6 +41,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_163741) do
     t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "token"
+    t.index ["token"], name: "index_sessions_on_token", unique: true
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
@@ -45,7 +52,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_163741) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "points_balance", default: 0
+    t.string "nanoid"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["nanoid"], name: "index_users_on_nanoid", unique: true
   end
 
   add_foreign_key "sessions", "users"

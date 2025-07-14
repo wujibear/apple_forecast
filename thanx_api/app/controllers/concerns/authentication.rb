@@ -31,7 +31,18 @@ module Authentication
   end
 
   def find_session_by_token_or_session_id
-    session_id = extracted_bearer_token || cookies.signed[:session_id]
+    token = extracted_bearer_token
+    return unless token
+
+    # Try to find session by secure token first
+    session = Session.find_by(token: token)
+    return session if session
+
+    # Fallback: Try JWT token (for backward compatibility)
+    payload = JwtService.decode(token)
+    return unless payload
+
+    session_id = payload["session_id"]
     return unless session_id
 
     Session.find_by(id: session_id)
@@ -48,9 +59,9 @@ module Authentication
   def start_new_session_for(user)
     user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
       Current.session = session
-      # For API, we return the session token in the response
-      # The client should store this and send it in Authorization header
-      response.headers["X-Session-Token"] = session.id
+
+      # Return the secure token (not the session ID)
+      response.headers["X-Session-Token"] = session.token
     end
   end
 

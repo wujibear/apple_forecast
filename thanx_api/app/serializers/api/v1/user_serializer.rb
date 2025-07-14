@@ -1,7 +1,7 @@
 module Api
   module V1
     class UserSerializer < BaseSerializer
-      identifier :id
+      identifier :nanoid
 
       view :summary do
         fields :email_address
@@ -12,8 +12,6 @@ module Api
         fields :points_balance
 
         association :sessions, blueprint: SessionSerializer
-        association :redemptions, blueprint: RedemptionSerializer
-        association :rewards, blueprint: RewardSerializer
       end
     end
   end

@@ -1,9 +1,11 @@
 require "rails_helper"
 
 RSpec.describe RedeemReward do
+  subject(:redemption) { described_class.new(user, reward).call }
+
   let(:user) { create(:user, points_balance: 1000) }
   let(:reward) { create(:reward, points: 500) }
-  subject(:redemption) { described_class.new(user, reward).call }
+
 
   describe "#call" do
     context "when user has sufficient points" do
@@ -17,11 +19,13 @@ RSpec.describe RedeemReward do
 
       it "returns a persisted redemption with correct attributes" do
         result = redemption
-        expect(result).to be_a(Redemption)
-        expect(result).to be_persisted
-        expect(result.user).to eq(user)
-        expect(result.reward).to eq(reward)
-        expect(result.points_cost).to eq(reward.points)
+        aggregate_failures do
+          expect(result).to be_a(Redemption)
+          expect(result).to be_persisted
+          expect(result.user).to eq(user)
+          expect(result.reward).to eq(reward)
+          expect(result.points_cost).to eq(reward.points)
+        end
       end
     end
 
