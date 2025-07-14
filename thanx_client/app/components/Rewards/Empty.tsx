@@ -8,4 +8,4 @@ export default function RewardsEmpty() {
       <p>Check back later for new rewards!</p>
     </Message>
   );
-} 
+}

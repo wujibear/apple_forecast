@@ -6,9 +6,9 @@ interface LoadingMessageProps {
   message?: string;
 }
 
-export default function LoadingMessage({ 
-  title = "Loading...", 
-  message = "Please wait while we load your data." 
+export default function LoadingMessage({
+  title = 'Loading...',
+  message = 'Please wait while we load your data.',
 }: LoadingMessageProps) {
   return (
     <Message info>
@@ -16,4 +16,4 @@ export default function LoadingMessage({
       <p>{message}</p>
     </Message>
   );
-} 
+}

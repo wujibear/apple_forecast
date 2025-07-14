@@ -4,7 +4,7 @@ import { useLocalStorage } from './useAuth';
 
 export const useRedemptions = () => {
   const { hasToken, isClient } = useLocalStorage();
-  
+
   return useQuery({
     queryKey: ['redemptions'],
     queryFn: ApiService.getRedemptions,
@@ -18,4 +18,4 @@ export const useRedemptions = () => {
       return failureCount < 3;
     },
   });
-}; 
+};

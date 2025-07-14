@@ -30,9 +30,7 @@ export function renderWithProviders(
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {children}
-        </BrowserRouter>
+        <BrowserRouter>{children}</BrowserRouter>
       </QueryClientProvider>
     );
   }
@@ -45,4 +43,4 @@ export function renderWithProviders(
 
 // Re-export everything
 export * from '@testing-library/react';
-export { default as userEvent } from '@testing-library/user-event'; 
+export { default as userEvent } from '@testing-library/user-event';

@@ -6,9 +6,9 @@ interface ErrorMessageProps {
   message?: string;
 }
 
-export default function ErrorMessage({ 
-  title = "Error", 
-  message = "There was an error loading your data. Please try again." 
+export default function ErrorMessage({
+  title = 'Error',
+  message = 'There was an error loading your data. Please try again.',
 }: ErrorMessageProps) {
   return (
     <Message negative>
@@ -16,4 +16,4 @@ export default function ErrorMessage({
       <p>{message}</p>
     </Message>
   );
-} 
+}

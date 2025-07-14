@@ -9,6 +9,6 @@ export const useAuthState = () => {
     isLoading: authLoading || userLoading,
     isAuthenticated: !!authData, // Use auth data for authentication check
     error,
-    authData // Include auth data for debugging
+    authData, // Include auth data for debugging
   };
-}; 
+};

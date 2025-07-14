@@ -32,9 +32,9 @@ export default function RewardsPage() {
   if (error) {
     return (
       <Container>
-        <ErrorMessage 
-          title="Error loading rewards" 
-          message="Please try again later." 
+        <ErrorMessage
+          title="Error loading rewards"
+          message="Please try again later."
         />
       </Container>
     );
@@ -48,7 +48,7 @@ export default function RewardsPage() {
         <Icon name="gift" />
         Available Rewards
       </Header>
-      
+
       {user && <PointsBalance pointsBalance={user.points_balance} />}
 
       {rewardsList.length === 0 ? (
@@ -63,4 +63,4 @@ export default function RewardsPage() {
       )}
     </Container>
   );
-} 
+}

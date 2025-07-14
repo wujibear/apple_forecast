@@ -10,15 +10,15 @@ interface RewardsGridProps {
   isRedeeming: boolean;
 }
 
-export default function RewardsGrid({ 
-  rewards, 
-  userPointsBalance, 
-  onRedeem, 
-  isRedeeming 
+export default function RewardsGrid({
+  rewards,
+  userPointsBalance,
+  onRedeem,
+  isRedeeming,
 }: RewardsGridProps) {
   return (
     <Grid stackable columns={3}>
-      {rewards.map((reward) => (
+      {rewards.map(reward => (
         <Grid.Column key={reward.nanoid}>
           <RewardCard
             reward={reward}
@@ -30,4 +30,4 @@ export default function RewardsGrid({
       ))}
     </Grid>
   );
-} 
+}

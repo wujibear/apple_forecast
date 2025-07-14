@@ -6,15 +6,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "react-router";
+} from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import AppLayout from './components/Layout';
 
-import type { Route } from "./+types/root";
-import "./app.css";
+import type { Route } from './+types/root';
+import './app.css';
 import 'semantic-ui-css/semantic.min.css';
 
 // Client-only component to prevent hydration mismatches
@@ -35,15 +35,15 @@ function ClientOnlyDevtools() {
 }
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
   },
   {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
 ];
 
@@ -89,11 +89,11 @@ export default function App() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ 
+      persistOptions={{
         persister,
         maxAge: 1000 * 60 * 60 * 24, // 24 hours
         dehydrateOptions: {
-          shouldDehydrateQuery: (query) => {
+          shouldDehydrateQuery: query => {
             // Persist auth data (login state)
             if (query.queryKey[0] === 'auth') {
               return true;
@@ -117,15 +117,15 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = 'Oops!';
+  let details = 'An unexpected error occurred.';
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    message = error.status === 404 ? '404' : 'Error';
     details =
       error.status === 404
-        ? "The requested page could not be found."
+        ? 'The requested page could not be found.'
         : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;

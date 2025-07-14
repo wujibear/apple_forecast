@@ -37,7 +37,7 @@ export function useLocalStorage() {
 // Hook for authentication data (persistent)
 export const useAuthData = () => {
   const { hasToken, isClient } = useLocalStorage();
-  
+
   return useQuery({
     queryKey: ['auth'],
     queryFn: ApiService.getCurrentUser,
@@ -54,23 +54,23 @@ export const useAuthData = () => {
       }
       return failureCount < 3;
     },
-    select: (data) => ({
+    select: data => ({
       nanoid: data.nanoid,
       email_address: data.email_address,
       created_at: data.created_at,
-      updated_at: data.updated_at
+      updated_at: data.updated_at,
     }),
     // Ensure this query is persisted
     meta: {
-      persist: true
-    }
+      persist: true,
+    },
   });
 };
 
 // Hook for fresh user data (including points balance)
 export const useCurrentUser = () => {
   const { hasToken, isClient } = useLocalStorage();
-  
+
   return useQuery({
     queryKey: ['user'],
     queryFn: ApiService.getCurrentUser,
@@ -91,30 +91,30 @@ export const useLogin = () => {
   const { setToken } = useLocalStorage();
 
   return useMutation({
-    mutationFn: (credentials: LoginCredentials) => 
+    mutationFn: (credentials: LoginCredentials) =>
       ApiService.login(credentials.email, credentials.password),
-    onSuccess: (data) => {
+    onSuccess: data => {
       // Store the session token
       setToken(data.token);
-      
+
       // Set authentication data (email, id, etc.)
       const authData = {
         nanoid: data.user.nanoid,
         email_address: data.user.email_address,
         created_at: data.user.created_at,
-        updated_at: data.user.updated_at
+        updated_at: data.user.updated_at,
       };
       queryClient.setQueryData(['auth'], authData);
-      
+
       // Set fresh user data including points
       queryClient.setQueryData(['user'], data.user);
-      
+
       // Invalidate user query to ensure fresh data on next fetch
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      
+
       // Also invalidate auth query to ensure it's properly cached
       queryClient.invalidateQueries({ queryKey: ['auth'] });
-      
+
       // Invalidate redemptions query to ensure fresh data
       queryClient.invalidateQueries({ queryKey: ['redemptions'] });
     },
@@ -133,7 +133,7 @@ export const useLogout = () => {
     onSuccess: () => {
       // Clear the session token
       removeToken();
-      
+
       // Clear all user-related data from cache
       queryClient.setQueryData(['auth'], null);
       queryClient.setQueryData(['user'], null);
@@ -148,4 +148,4 @@ export const useLogout = () => {
       queryClient.setQueryData(['user'], null);
     },
   });
-}; 
+};

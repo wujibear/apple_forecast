@@ -8,9 +8,7 @@ interface PointsBalanceProps {
 export default function PointsBalance({ pointsBalance }: PointsBalanceProps) {
   return (
     <Segment textAlign="center" color="blue">
-      <Header as="h3">
-        Your Points Balance: {pointsBalance}
-      </Header>
+      <Header as="h3">Your Points Balance: {pointsBalance}</Header>
     </Segment>
   );
-} 
+}

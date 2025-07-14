@@ -27,6 +27,11 @@ jobs:
       run: |
         cd thanx_client
         npm ci
+
+    - name: Check code formatting
+      run: |
+        cd thanx_client
+        npm run format:check
     
     - name: Run type check
       run: |

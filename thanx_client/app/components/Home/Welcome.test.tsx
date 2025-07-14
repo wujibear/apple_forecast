@@ -5,7 +5,7 @@ import HomeWelcome from './Welcome';
 
 // Mock the useAuthState hook
 vi.mock('../../hooks/useAuthState', () => ({
-  useAuthState: vi.fn()
+  useAuthState: vi.fn(),
 }));
 
 // Get the mocked function after the mock is set up
@@ -22,14 +22,18 @@ describe('HomeWelcome', () => {
     mockUseAuthState.mockReturnValue({
       isAuthenticated: false,
       user: null,
-      isLoading: false
+      isLoading: false,
     });
 
     renderWithProviders(<HomeWelcome />);
-    
+
     expect(screen.getByText('Thanx Rewards')).toBeInTheDocument();
-    expect(screen.getByText('Earn points and redeem amazing rewards')).toBeInTheDocument();
-    expect(screen.getByText('Sign in to start earning points')).toBeInTheDocument();
+    expect(
+      screen.getByText('Earn points and redeem amazing rewards')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Sign in to start earning points')
+    ).toBeInTheDocument();
     expect(screen.getByText('Sign In')).toBeInTheDocument();
   });
 
@@ -41,16 +45,20 @@ describe('HomeWelcome', () => {
         email_address: 'test@example.com',
         points_balance: 1000,
         created_at: '2023-01-01T00:00:00Z',
-        updated_at: '2023-01-01T00:00:00Z'
+        updated_at: '2023-01-01T00:00:00Z',
       },
-      isLoading: false
+      isLoading: false,
     });
 
     renderWithProviders(<HomeWelcome />);
-    
+
     expect(screen.getByText('Thanx Rewards')).toBeInTheDocument();
-    expect(screen.getByText('Earn points and redeem amazing rewards')).toBeInTheDocument();
-    expect(screen.getByText('Welcome back! You have 1000 points')).toBeInTheDocument();
+    expect(
+      screen.getByText('Earn points and redeem amazing rewards')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Welcome back! You have 1000 points')
+    ).toBeInTheDocument();
     expect(screen.getByText('Browse Rewards')).toBeInTheDocument();
     expect(screen.getByText('My Rewards')).toBeInTheDocument();
   });
@@ -63,14 +71,16 @@ describe('HomeWelcome', () => {
         email_address: 'test@example.com',
         points_balance: 0,
         created_at: '2023-01-01T00:00:00Z',
-        updated_at: '2023-01-01T00:00:00Z'
+        updated_at: '2023-01-01T00:00:00Z',
       },
-      isLoading: false
+      isLoading: false,
     });
 
     renderWithProviders(<HomeWelcome />);
-    
-    expect(screen.getByText('Welcome back! You have 0 points')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Welcome back! You have 0 points')
+    ).toBeInTheDocument();
   });
 
   it('renders welcome message for authenticated users with large points balance', () => {
@@ -81,13 +91,15 @@ describe('HomeWelcome', () => {
         email_address: 'test@example.com',
         points_balance: 999999,
         created_at: '2023-01-01T00:00:00Z',
-        updated_at: '2023-01-01T00:00:00Z'
+        updated_at: '2023-01-01T00:00:00Z',
       },
-      isLoading: false
+      isLoading: false,
     });
 
     renderWithProviders(<HomeWelcome />);
-    
-    expect(screen.getByText('Welcome back! You have 999999 points')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Welcome back! You have 999999 points')
+    ).toBeInTheDocument();
   });
-}); 
+});

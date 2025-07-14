@@ -27,21 +27,21 @@ vi.mock('../hooks/useAuth', () => ({
 describe('Layout', () => {
   it('renders the header with Thanx Rewards title', () => {
     renderWithProviders(<Layout>Test content</Layout>);
-    
+
     expect(screen.getByText('Thanx Rewards')).toBeInTheDocument();
     expect(screen.getByText('Test content')).toBeInTheDocument();
   });
 
   it('shows sign in button when user is not authenticated', () => {
     renderWithProviders(<Layout>Test content</Layout>);
-    
+
     expect(screen.getByText('Sign In')).toBeInTheDocument();
   });
 
   it('renders children content', () => {
     const testContent = 'This is test content';
     renderWithProviders(<Layout>{testContent}</Layout>);
-    
+
     expect(screen.getByText(testContent)).toBeInTheDocument();
   });
-}); 
+});

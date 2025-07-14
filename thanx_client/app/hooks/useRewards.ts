@@ -29,21 +29,23 @@ export const useReward = (nanoid: string) => {
 
 export const useRedeemReward = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (rewardNanoid: string) => ApiService.redeemReward(rewardNanoid),
     onSuccess: (data, rewardNanoid) => {
       // Invalidate and refetch rewards list
       queryClient.invalidateQueries({ queryKey: rewardKeys.lists() });
-      
+
       // Invalidate user data to refresh points balance
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      
+
       // Optionally update the specific reward if it has redemption count
-      queryClient.invalidateQueries({ queryKey: rewardKeys.detail(rewardNanoid) });
+      queryClient.invalidateQueries({
+        queryKey: rewardKeys.detail(rewardNanoid),
+      });
     },
     onError: (error: any) => {
       console.error('Failed to redeem reward:', error);
     },
   });
-}; 
+};

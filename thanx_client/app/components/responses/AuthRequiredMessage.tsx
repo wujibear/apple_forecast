@@ -6,9 +6,9 @@ interface AuthRequiredMessageProps {
   message?: string;
 }
 
-export default function AuthRequiredMessage({ 
-  title = "Authentication Required", 
-  message = "Please sign in to view this content." 
+export default function AuthRequiredMessage({
+  title = 'Authentication Required',
+  message = 'Please sign in to view this content.',
 }: AuthRequiredMessageProps) {
   return (
     <Message warning>
@@ -16,4 +16,4 @@ export default function AuthRequiredMessage({
       <p>{message}</p>
     </Message>
   );
-} 
+}

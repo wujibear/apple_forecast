@@ -5,7 +5,10 @@ export default function ClaimedRewardsEmpty() {
   return (
     <Message info>
       <Message.Header>No Rewards Claimed Yet</Message.Header>
-      <p>You haven't claimed any rewards yet. Head over to the rewards page to start redeeming!</p>
+      <p>
+        You haven't claimed any rewards yet. Head over to the rewards page to
+        start redeeming!
+      </p>
     </Message>
   );
-} 
+}

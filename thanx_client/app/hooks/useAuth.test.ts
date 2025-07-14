@@ -29,8 +29,8 @@ describe('Auth Hooks', () => {
 
   it('should handle localStorage properly', () => {
     expect(localStorage.getItem('auth_token')).toBe(null);
-    
+
     vi.mocked(localStorage.getItem).mockReturnValue('test-token');
     expect(localStorage.getItem('auth_token')).toBe('test-token');
   });
-}); 
+});

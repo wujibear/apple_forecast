@@ -1,13 +1,13 @@
 import React from 'react';
-import { 
-  Menu, 
-  Container, 
-  Button, 
-  Dropdown, 
+import {
+  Menu,
+  Container,
+  Button,
+  Dropdown,
   Icon,
   Modal,
   Form,
-  Message
+  Message,
 } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router';
 import { useAuthState } from '../hooks/useAuthState';
@@ -19,7 +19,11 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const { user, isLoading, isAuthenticated } = useAuthState();
-  const { mutate: login, isPending: isLoggingIn, error: loginError } = useLogin();
+  const {
+    mutate: login,
+    isPending: isLoggingIn,
+    error: loginError,
+  } = useLogin();
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
   const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(false);
   const [loginForm, setLoginForm] = React.useState({ email: '', password: '' });
@@ -30,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
       onSuccess: () => {
         setIsLoginModalOpen(false);
         setLoginForm({ email: '', password: '' });
-      }
+      },
     });
   };
 
@@ -50,20 +54,28 @@ export default function Layout({ children }: LayoutProps) {
             <Icon name="gift" />
             Thanx Rewards
           </Menu.Item>
-          
+
           {isAuthenticated && (
             <>
-              <Menu.Item as={Link} to="/rewards" active={location.pathname === '/rewards'}>
+              <Menu.Item
+                as={Link}
+                to="/rewards"
+                active={location.pathname === '/rewards'}
+              >
                 <Icon name="gift" />
                 Rewards
               </Menu.Item>
-              <Menu.Item as={Link} to="/claimed-rewards" active={location.pathname === '/claimed-rewards'}>
+              <Menu.Item
+                as={Link}
+                to="/claimed-rewards"
+                active={location.pathname === '/claimed-rewards'}
+              >
                 <Icon name="clock" />
                 History
               </Menu.Item>
             </>
           )}
-          
+
           <Menu.Menu position="right">
             {isLoading ? (
               <Menu.Item>
@@ -86,7 +98,10 @@ export default function Layout({ children }: LayoutProps) {
                       {user.points_balance.toLocaleString()} points
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleLogout} disabled={isLoggingOut}>
+                    <Dropdown.Item
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                    >
                       <Icon name="sign-out" />
                       Log Out
                     </Dropdown.Item>
@@ -95,8 +110,8 @@ export default function Layout({ children }: LayoutProps) {
               </Menu.Item>
             ) : (
               <Menu.Item>
-                <Button 
-                  icon 
+                <Button
+                  icon
                   labelPosition="left"
                   onClick={() => setIsLoginModalOpen(true)}
                 >
@@ -127,7 +142,7 @@ export default function Layout({ children }: LayoutProps) {
               <Form.Input
                 type="email"
                 value={loginForm.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={e => handleInputChange('email', e.target.value)}
                 placeholder="Enter your email"
               />
             </Form.Field>
@@ -136,7 +151,7 @@ export default function Layout({ children }: LayoutProps) {
               <Form.Input
                 type="password"
                 value={loginForm.password}
-                onChange={(e) => handleInputChange('password', e.target.value)}
+                onChange={e => handleInputChange('password', e.target.value)}
                 placeholder="Enter your password"
               />
             </Form.Field>
@@ -149,11 +164,9 @@ export default function Layout({ children }: LayoutProps) {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => setIsLoginModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button 
-            primary 
+          <Button onClick={() => setIsLoginModalOpen(false)}>Cancel</Button>
+          <Button
+            primary
             onClick={handleLogin}
             loading={isLoggingIn}
             disabled={!loginForm.email || !loginForm.password}
@@ -164,4 +177,4 @@ export default function Layout({ children }: LayoutProps) {
       </Modal>
     </div>
   );
-} 
+}

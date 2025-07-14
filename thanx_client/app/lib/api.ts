@@ -2,9 +2,10 @@ import axios from 'axios';
 import type { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 
 // API base configuration
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-api-domain.com/api/v1' 
-  : 'http://localhost:3000/api/v1';
+const API_BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://your-api-domain.com/api/v1'
+    : 'http://localhost:3000/api/v1';
 
 // Create axios instance with default config
 const apiClient: AxiosInstance = axios.create({
@@ -17,7 +18,7 @@ const apiClient: AxiosInstance = axios.create({
 
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
-  (config) => {
+  config => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('auth_token');
       if (token) {
@@ -26,7 +27,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
@@ -94,7 +95,9 @@ export class ApiService {
   }
 
   static async redeemReward(nanoid: string): Promise<Redemption> {
-    const response = await apiClient.post<Redemption>(`/rewards/${nanoid}/redeem`);
+    const response = await apiClient.post<Redemption>(
+      `/rewards/${nanoid}/redeem`
+    );
     return response.data;
   }
 
@@ -111,18 +114,23 @@ export class ApiService {
   }
 
   // Auth
-  static async login(email: string, password: string): Promise<{ user: User; token: string }> {
+  static async login(
+    email: string,
+    password: string
+  ): Promise<{ user: User; token: string }> {
     const response = await apiClient.post<User>('/session', {
       email_address: email,
       password: password,
     });
-    
+
     // Extract token from response headers
-    const token = response.headers['x-session-token'] || response.headers['X-Session-Token'];
-    
+    const token =
+      response.headers['x-session-token'] ||
+      response.headers['X-Session-Token'];
+
     return {
       user: response.data,
-      token: token || ''
+      token: token || '',
     };
   }
 
@@ -134,4 +142,4 @@ export class ApiService {
   }
 }
 
-export default apiClient; 
+export default apiClient;

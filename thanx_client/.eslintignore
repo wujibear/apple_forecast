@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+coverage/
+
+# Config files
+*.config.js
+*.config.ts
+
+# Test coverage
+coverage/
+
+# Environment files
+.env*
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log 

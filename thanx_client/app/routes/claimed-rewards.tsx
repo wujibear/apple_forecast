@@ -2,8 +2,15 @@ import React from 'react';
 import { Container, Header } from 'semantic-ui-react';
 import { useAuthState } from '../hooks/useAuthState';
 import { useRedemptions } from '../hooks/useRedemptions';
-import { LoadingMessage, ErrorMessage, AuthRequiredMessage } from '../components/responses';
-import { Table as ClaimedRewardsTable, Empty as ClaimedRewardsEmpty } from '../components/ClaimedRewards';
+import {
+  LoadingMessage,
+  ErrorMessage,
+  AuthRequiredMessage,
+} from '../components/responses';
+import {
+  Table as ClaimedRewardsTable,
+  Empty as ClaimedRewardsEmpty,
+} from '../components/ClaimedRewards';
 
 export default function ClaimedRewards() {
   const { isAuthenticated } = useAuthState();
@@ -12,9 +19,9 @@ export default function ClaimedRewards() {
   if (isLoading) {
     return (
       <Container style={{ marginTop: '2rem' }}>
-        <LoadingMessage 
-          title="Loading..." 
-          message="Please wait while we load your claimed rewards." 
+        <LoadingMessage
+          title="Loading..."
+          message="Please wait while we load your claimed rewards."
         />
       </Container>
     );
@@ -23,9 +30,9 @@ export default function ClaimedRewards() {
   if (!isAuthenticated) {
     return (
       <Container style={{ marginTop: '2rem' }}>
-        <AuthRequiredMessage 
-          title="Authentication Required" 
-          message="Please sign in to view your claimed rewards." 
+        <AuthRequiredMessage
+          title="Authentication Required"
+          message="Please sign in to view your claimed rewards."
         />
       </Container>
     );
@@ -34,9 +41,9 @@ export default function ClaimedRewards() {
   if (error) {
     return (
       <Container style={{ marginTop: '2rem' }}>
-        <ErrorMessage 
-          title="Error Loading Rewards" 
-          message="There was an error loading your claimed rewards. Please try again." 
+        <ErrorMessage
+          title="Error Loading Rewards"
+          message="There was an error loading your claimed rewards. Please try again."
         />
       </Container>
     );
@@ -47,7 +54,7 @@ export default function ClaimedRewards() {
   return (
     <Container style={{ marginTop: '2rem' }}>
       <Header as="h1">My Claimed Rewards</Header>
-      
+
       {redemptionsList.length === 0 ? (
         <ClaimedRewardsEmpty />
       ) : (
@@ -55,4 +62,4 @@ export default function ClaimedRewards() {
       )}
     </Container>
   );
-} 
+}

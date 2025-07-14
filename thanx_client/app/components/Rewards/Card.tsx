@@ -9,11 +9,11 @@ interface RewardCardProps {
   isRedeeming: boolean;
 }
 
-export default function RewardCard({ 
-  reward, 
-  userPointsBalance = 0, 
-  onRedeem, 
-  isRedeeming 
+export default function RewardCard({
+  reward,
+  userPointsBalance = 0,
+  onRedeem,
+  isRedeeming,
 }: RewardCardProps) {
   const canRedeem = userPointsBalance >= reward.points;
 
@@ -45,4 +45,4 @@ export default function RewardCard({
       </CardContent>
     </Card>
   );
-} 
+}

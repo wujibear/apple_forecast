@@ -1,10 +1,10 @@
-import type { Route } from "./+types/home";
-import { Welcome } from "../components/Home";
+import type { Route } from './+types/home';
+import { Welcome } from '../components/Home';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Thanx Rewards" },
-    { name: "description", content: "Earn points and redeem amazing rewards" },
+    { title: 'Thanx Rewards' },
+    { name: 'description', content: 'Earn points and redeem amazing rewards' },
   ];
 }
 
