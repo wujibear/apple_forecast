@@ -52,29 +52,8 @@ export default function Layout({ children }: LayoutProps) {
         <Container>
           <Menu.Item header as={Link} to="/">
             <Icon name="gift" />
-            Apple Rewards
+            Apple Forecast
           </Menu.Item>
-
-          {isAuthenticated && (
-            <>
-              <Menu.Item
-                as={Link}
-                to="/rewards"
-                active={location.pathname === '/rewards'}
-              >
-                <Icon name="gift" />
-                Rewards
-              </Menu.Item>
-              <Menu.Item
-                as={Link}
-                to="/claimed-rewards"
-                active={location.pathname === '/claimed-rewards'}
-              >
-                <Icon name="clock" />
-                History
-              </Menu.Item>
-            </>
-          )}
 
           <Menu.Menu position="right">
             {isLoading ? (
