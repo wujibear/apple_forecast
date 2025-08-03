@@ -10,9 +10,6 @@ puts "🌱 Seeding database..."
 # Configuration variables
 DEFAULT_USER_EMAIL = "user@example.com"
 DEFAULT_USER_PASSWORD = "password123"
-DEFAULT_USER_POINTS = 30_000
-DEFAULT_REDEMPTIONS_COUNT = 3
-DEFAULT_REWARDS_COUNT = 10
 
 # Create default user
 default_user = User.find_or_create_by!(email_address: DEFAULT_USER_EMAIL) do |user|
@@ -23,29 +20,11 @@ end
 
 puts "✅ Created default user: #{default_user.email_address} with #{default_user.points_balance} points"
 
-if Reward.count < DEFAULT_REWARDS_COUNT
-  # Create a list of rewards using FactoryBot
-  rewards = create_list(:reward, DEFAULT_REWARDS_COUNT)
-  puts "✅ Created #{rewards.length} rewards"
-
-  # Sample affordable rewards for redemptions
-  affordable_rewards = rewards.select { |r| r.points <= 500 }
-  sampled_rewards = affordable_rewards.sample(DEFAULT_REDEMPTIONS_COUNT)
-
-  sampled_rewards.each do |reward|
-    create(:redemption, reward:, user: default_user)
-  end
-end
-
-puts "✅ Created #{DEFAULT_REDEMPTIONS_COUNT} redemptions for default user"
 
 puts "🎉 Seeding complete!"
 puts "📊 Summary:"
 puts "   - Users: #{User.count}"
-puts "   - Rewards: #{Reward.count}"
-puts "   - Redemptions: #{Redemption.count}"
 puts ""
 puts "🔑 Default user credentials:"
 puts "   Email: #{DEFAULT_USER_EMAIL}"
 puts "   Password: #{DEFAULT_USER_PASSWORD}"
-puts "   Points: #{default_user.points_balance}"
