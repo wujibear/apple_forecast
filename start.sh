@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Thanx Rewards - Foreman-based startup script
+# Apple Rewards - Foreman-based startup script
 
-echo "🚀 Starting Thanx Rewards with Foreman..."
+echo "🚀 Starting Apple Rewards with Foreman..."
 
 # Check if we're in the right directory
-if [ ! -f "thanx_api/Procfile" ] || [ ! -f "thanx_api/Gemfile" ]; then
-    echo "❌ Error: Procfile or Gemfile not found in thanx_api directory. Please run this script from the project root."
+if [ ! -f "apple_api/Procfile" ] || [ ! -f "apple_api/Gemfile" ]; then
+    echo "❌ Error: Procfile or Gemfile not found in apple_api directory. Please run this script from the project root."
     exit 1
 fi
 
@@ -14,15 +14,15 @@ fi
 echo "📦 Installing dependencies..."
 
 # Install Rails dependencies if needed
-if [ ! -d "thanx_api/.bundle" ]; then
+if [ ! -d "apple_api/.bundle" ]; then
     echo "  - Installing API dependencies..."
-    (cd thanx_api && bundle install && bundle exec rails db:create db:migrate db:seed)
+    (cd apple_api && bundle install && bundle exec rails db:create db:migrate db:seed)
 fi
 
 # Install Node.js dependencies if needed
-if [ ! -d "thanx_client/node_modules" ]; then
+if [ ! -d "apple_client/node_modules" ]; then
     echo "  - Installing client app dependencies..."
-    (cd thanx_client && npm install)
+    (cd apple_client && npm install)
 fi
 
 echo "✅ Dependencies installed!"
@@ -35,4 +35,4 @@ echo ""
 echo "Press Ctrl+C to stop all services"
 
 # Run foreman from the Rails app directory
-(cd thanx_api && bundle exec foreman start)
+(cd apple_api && bundle exec foreman start)

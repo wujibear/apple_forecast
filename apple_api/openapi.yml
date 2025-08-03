@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Thanx Rewards API
+  title: Apple Rewards API
   description: |
-    API for managing rewards and redemptions in the Thanx Rewards system.
+    API for managing rewards and redemptions in the Apple Rewards system.
     
     ## Authentication
     Most endpoints require authentication using Bearer tokens. Include the token in the Authorization header:
@@ -23,11 +23,11 @@ info:
     - `500 Internal Server Error` - Server error
   version: 1.0.0
   contact:
-    name: Thanx Rewards Team
+    name: Apple Rewards Team
 servers:
   - url: http://localhost:3000
     description: Development server
-  - url: https://api.thanxrewards.com
+  - url: https://api.applerewards.com
     description: Production server
 
 security:

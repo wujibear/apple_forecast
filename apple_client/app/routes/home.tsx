@@ -2,7 +2,7 @@ import { Welcome } from '../components/Home';
 
 export function meta() {
   return [
-    { title: 'Thanx Rewards' },
+    { title: 'Apple Rewards' },
     { name: 'description', content: 'Earn points and redeem amazing rewards' },
   ];
 }

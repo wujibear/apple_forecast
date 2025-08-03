@@ -11,7 +11,7 @@ export default function HomeWelcome() {
       <Segment textAlign="center" style={{ marginTop: '2rem' }}>
         <Header as="h1" icon>
           <Icon name="gift" />
-          Thanx Rewards
+          Apple Rewards
           <Header.Subheader>
             Earn points and redeem amazing rewards
           </Header.Subheader>

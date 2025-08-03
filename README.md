@@ -1,4 +1,4 @@
-# Thanx Rewards
+# Apple Rewards
 
 A Rails API + React client application for managing rewards.
 
@@ -42,15 +42,15 @@ That's it! You can now browse rewards, redeem them, and view your claimed reward
    bundle install
    
    # Install Rails dependencies
-   cd thanx_api && bundle install
+   cd apple_api && bundle install
    
    # Install Node.js dependencies
-   cd thanx_client && npm install
+   cd apple_client && npm install
    ```
 
 2. **Setup database:**
    ```bash
-   cd thanx_api && bundle exec rails db:create db:migrate db:seed
+   cd apple_api && bundle exec rails db:create db:migrate db:seed
    ```
 
 3. **Start services:**
@@ -59,8 +59,8 @@ That's it! You can now browse rewards, redeem them, and view your claimed reward
    bundle exec foreman start
    
    # Or start individually
-   cd thanx_api && bundle exec rails server -p 3000
-   cd thanx_client && npm run dev
+   cd apple_api && bundle exec rails server -p 3000
+   cd apple_client && npm run dev
    ```
 
 ### Services
@@ -75,28 +75,28 @@ That's it! You can now browse rewards, redeem them, and view your claimed reward
 # Start both services with Foreman
 ./start.sh
 
-# Start only Rails API
-cd thanx_api && bundle exec rails server -p 3000
-
-# Start only React client
-cd thanx_client && npm run dev
-
-# Run Rails tests
-cd thanx_api && bundle exec rspec
-
-# Run React tests
-cd thanx_client && npm test
-
-# Build React for production
-cd thanx_client && npm run build
+   # Start only Rails API
+   cd apple_api && bundle exec rails server -p 3000
+   
+   # Start only React client
+   cd apple_client && npm run dev
+   
+   # Run Rails tests
+   cd apple_api && bundle exec rspec
+   
+   # Run React tests
+   cd apple_client && npm test
+   
+   # Build React for production
+   cd apple_client && npm run build
 ```
 
 ### Project Structure
 
 ```
-thanx_rewards/
-├── thanx_api/          # Rails API
-├── thanx_client/       # React client
+apple/
+├── apple_api/          # Rails API
+├── apple_client/       # React client
 ├── Gemfile            # Root-level dependencies (Foreman)
 ├── .ruby-version      # Ruby version specification
 ├── Procfile           # Foreman process definitions

@@ -27,7 +27,7 @@ describe('HomeWelcome', () => {
 
     renderWithProviders(<HomeWelcome />);
 
-    expect(screen.getByText('Thanx Rewards')).toBeInTheDocument();
+    expect(screen.getByText('Apple Rewards')).toBeInTheDocument();
     expect(
       screen.getByText('Earn points and redeem amazing rewards')
     ).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe('HomeWelcome', () => {
 
     renderWithProviders(<HomeWelcome />);
 
-    expect(screen.getByText('Thanx Rewards')).toBeInTheDocument();
+    expect(screen.getByText('Apple Rewards')).toBeInTheDocument();
     expect(
       screen.getByText('Earn points and redeem amazing rewards')
     ).toBeInTheDocument();

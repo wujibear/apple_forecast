@@ -25,10 +25,10 @@ vi.mock('../hooks/useAuth', () => ({
 }));
 
 describe('Layout', () => {
-  it('renders the header with Thanx Rewards title', () => {
+  it('renders the header with Apple Rewards title', () => {
     renderWithProviders(<Layout>Test content</Layout>);
 
-    expect(screen.getByText('Thanx Rewards')).toBeInTheDocument();
+    expect(screen.getByText('Apple Rewards')).toBeInTheDocument();
     expect(screen.getByText('Test content')).toBeInTheDocument();
   });
 

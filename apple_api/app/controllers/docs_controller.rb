@@ -15,7 +15,7 @@ class DocsController < ActionController::Base
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Thanx Rewards API Documentation</title>
+          <title>Apple Rewards API Documentation</title>
           <meta charset="utf-8"/>
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">

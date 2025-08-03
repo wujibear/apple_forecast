@@ -20,12 +20,12 @@ jobs:
     
     - name: Install Rails dependencies
       run: |
-        cd thanx_api
+        cd apple_api
         bundle install
     
     - name: Run RuboCop
       run: |
-        cd thanx_api
+        cd apple_api
         bundle exec rubocop --parallel
 
   rspec:
@@ -43,16 +43,16 @@ jobs:
     
     - name: Install Rails dependencies
       run: |
-        cd thanx_api
+        cd apple_api
         bundle install
     
     - name: Setup database
       run: |
-        cd thanx_api
+        cd apple_api
         bundle exec rails db:create
         bundle exec rails db:schema:load
     
     - name: Run RSpec
       run: |
-        cd thanx_api
+        cd apple_api
         bundle exec rspec --format documentation 

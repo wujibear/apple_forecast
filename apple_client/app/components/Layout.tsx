@@ -52,7 +52,7 @@ export default function Layout({ children }: LayoutProps) {
         <Container>
           <Menu.Item header as={Link} to="/">
             <Icon name="gift" />
-            Thanx Rewards
+            Apple Rewards
           </Menu.Item>
 
           {isAuthenticated && (
