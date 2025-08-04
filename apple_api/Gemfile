@@ -44,6 +44,9 @@ gem "thruster", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"
 
+gem "geocoder" # for getting the city from an address or postal code
+gem "open-weather-ruby-client" # for getting the weather forecast
+
 # Would be nice to have, but it's not working with SQLite3
 # gem "strong_migrations" # Ensures migrations are created safely
 
